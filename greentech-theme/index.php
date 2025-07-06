@@ -12,22 +12,22 @@ get_header(); ?>
 
 <?php if (is_front_page() || is_home()) : ?>
     <!-- Hero Section -->
-    <section class="hero">
+    <section id="hero" class="hero section fade-in">
         <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="hero-content text-center">
-                        <h1 class="fade-in"><?php echo get_theme_mod('hero_title', 'Build Your Digital Future with GreenTech'); ?></h1>
-                        <p class="lead fade-in"><?php echo get_theme_mod('hero_subtitle', 'Professional web development, hosting, and digital marketing services for modern businesses.'); ?></p>
-                        <div class="hero-buttons fade-in">
-                            <a href="<?php echo get_theme_mod('hero_button_url', '#contact'); ?>" class="btn btn-primary btn-large">
-                                <?php echo get_theme_mod('hero_button_text', 'Get Started'); ?>
-                            </a>
-                            <a href="#services" class="btn btn-outline btn-large">
-                                <?php _e('Our Services', 'greentech'); ?>
-                            </a>
-                        </div>
-                    </div>
+            <div class="hero-content text-center">
+                <h1 class="hero-title">
+                    <?php echo esc_html(get_theme_mod('hero_title', __('Build Your Digital Future with GreenTech', 'greentech'))); ?>
+                </h1>
+                <p class="lead hero-subtitle">
+                    <?php echo esc_html(get_theme_mod('hero_subtitle', __('Professional web development, hosting, and digital marketing services for modern businesses.', 'greentech'))); ?>
+                </p>
+                <div class="btn-group hero-buttons">
+                    <a href="<?php echo esc_url(get_theme_mod('hero_button_url', '#contact')); ?>" class="btn btn-primary btn-lg">
+                        <?php echo esc_html(get_theme_mod('hero_button_text', __('Get Started', 'greentech'))); ?>
+                    </a>
+                    <a href="<?php echo esc_url(get_theme_mod('hero_button_2_url', '#services')); ?>" class="btn btn-outline btn-lg">
+                        <?php echo esc_html(get_theme_mod('hero_button_2_text', __('Our Services', 'greentech'))); ?>
+                    </a>
                 </div>
             </div>
         </div>
@@ -36,25 +36,35 @@ get_header(); ?>
     <!-- Services Section -->
     <section id="services" class="services section">
         <div class="container">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <h2 class="fade-in"><?php _e('Our Services', 'greentech'); ?></h2>
-                    <p class="lead fade-in"><?php _e('Comprehensive digital solutions to help your business thrive in the modern world.', 'greentech'); ?></p>
-                </div>
+            <div class="section-header text-center">
+                <h2 class="section-title fade-in"><?php _e('Our Services', 'greentech'); ?></h2>
+                <p class="section-description fade-in">
+                    <?php _e('We provide comprehensive digital solutions to help your business thrive in the modern world.', 'greentech'); ?>
+                </p>
             </div>
+            
             <div class="services-grid">
-                <?php foreach (greentech_get_services() as $service) : ?>
-                    <div class="service-card scale-in">
-                        <div class="service-icon">
-                            <?php echo $service['icon']; ?>
-                        </div>
+                <?php 
+                $services = \GreenTech\greentech_get_services();
+                foreach ($services as $index => $service) : 
+                    $delay = $index * 0.1;
+                ?>
+                    <div class="service-card fade-in" style="animation-delay: <?php echo $delay; ?>s;">
+                        <div class="service-icon"><?php echo $service['icon']; ?></div>
                         <h3><?php echo esc_html($service['title']); ?></h3>
                         <p><?php echo esc_html($service['description']); ?></p>
-                        <ul class="service-list">
-                            <?php foreach ($service['services'] as $item) : ?>
-                                <li><?php echo esc_html($item); ?></li>
-                            <?php endforeach; ?>
-                        </ul>
+                        
+                        <?php if (!empty($service['services'])) : ?>
+                            <ul class="service-list">
+                                <?php foreach ($service['services'] as $sub_service) : ?>
+                                    <li><?php echo esc_html($sub_service); ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        <?php endif; ?>
+                        
+                        <a href="<?php echo home_url('/services#' . $service['category']); ?>" class="btn btn-outline">
+                            <?php _e('Learn More', 'greentech'); ?>
+                        </a>
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -64,43 +74,62 @@ get_header(); ?>
     <!-- Portfolio Section -->
     <section id="portfolio" class="portfolio section">
         <div class="container">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <h2 class="fade-in"><?php _e('Our Portfolio', 'greentech'); ?></h2>
-                    <p class="lead fade-in"><?php _e('Showcasing our latest projects and success stories.', 'greentech'); ?></p>
-                </div>
+            <div class="section-header text-center">
+                <h2 class="section-title fade-in"><?php _e('Our Portfolio', 'greentech'); ?></h2>
+                <p class="section-description fade-in">
+                    <?php _e('Explore our recent projects and see how we\'ve helped businesses achieve their goals.', 'greentech'); ?>
+                </p>
             </div>
             
-            <div class="portfolio-filters">
-                <button class="filter-btn active" data-filter="all"><?php _e('All', 'greentech'); ?></button>
+            <!-- Portfolio Filters -->
+            <div class="portfolio-filters text-center fade-in">
+                <button class="filter-btn active" data-filter="all"><?php _e('All Projects', 'greentech'); ?></button>
                 <button class="filter-btn" data-filter="web-development"><?php _e('Web Development', 'greentech'); ?></button>
                 <button class="filter-btn" data-filter="e-commerce"><?php _e('E-Commerce', 'greentech'); ?></button>
-                <button class="filter-btn" data-filter="mobile-app"><?php _e('Mobile Apps', 'greentech'); ?></button>
                 <button class="filter-btn" data-filter="design"><?php _e('Design', 'greentech'); ?></button>
+                <button class="filter-btn" data-filter="marketing"><?php _e('Marketing', 'greentech'); ?></button>
             </div>
             
-            <div class="portfolio-grid">
-                <?php foreach (greentech_get_portfolio() as $item) : ?>
-                    <div class="portfolio-item fade-in" data-category="<?php echo esc_attr($item['category']); ?>">
+            <!-- Portfolio Grid -->
+            <div class="portfolio-grid" id="portfolio-grid">
+                <?php 
+                $portfolio = \GreenTech\greentech_get_portfolio();
+                foreach ($portfolio as $index => $project) : 
+                    $delay = $index * 0.1;
+                ?>
+                    <article class="portfolio-item scale-in" data-category="<?php echo esc_attr($project['category']); ?>" style="animation-delay: <?php echo $delay; ?>s;">
                         <div class="portfolio-image">
-                            <img src="<?php echo esc_url($item['image']); ?>" alt="<?php echo esc_attr($item['title']); ?>">
+                            <img src="<?php echo esc_url($project['image']); ?>" alt="<?php echo esc_attr($project['title']); ?>" loading="lazy">
                             <div class="portfolio-overlay">
-                                <a href="<?php echo esc_url($item['image']); ?>" class="btn btn-primary">
-                                    <?php _e('View Project', 'greentech'); ?>
-                                </a>
+                                <div class="overlay-content">
+                                    <h3><?php echo esc_html($project['title']); ?></h3>
+                                    <p><?php echo esc_html($project['description']); ?></p>
+                                    <a href="<?php echo esc_url($project['url']); ?>" class="btn btn-outline btn-sm">
+                                        <?php _e('View Project', 'greentech'); ?>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                         <div class="portfolio-content">
-                            <h3><?php echo esc_html($item['title']); ?></h3>
-                            <p><?php echo esc_html($item['description']); ?></p>
-                            <div class="portfolio-tags">
-                                <?php foreach ($item['tags'] as $tag) : ?>
-                                    <span class="portfolio-tag"><?php echo esc_html($tag); ?></span>
-                                <?php endforeach; ?>
-                            </div>
+                            <h3><?php echo esc_html($project['title']); ?></h3>
+                            <p><?php echo esc_html($project['description']); ?></p>
+                            
+                            <?php if (!empty($project['tags'])) : ?>
+                                <div class="portfolio-tags">
+                                    <?php foreach ($project['tags'] as $tag) : ?>
+                                        <span class="portfolio-tag"><?php echo esc_html($tag); ?></span>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php endif; ?>
                         </div>
-                    </div>
+                    </article>
                 <?php endforeach; ?>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="<?php echo home_url('/portfolio'); ?>" class="btn btn-primary btn-lg">
+                    <?php _e('View All Projects', 'greentech'); ?>
+                </a>
             </div>
         </div>
     </section>
@@ -108,22 +137,25 @@ get_header(); ?>
     <!-- Testimonials Section -->
     <section id="testimonials" class="testimonials section">
         <div class="container">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <h2 class="fade-in"><?php _e('What Our Clients Say', 'greentech'); ?></h2>
-                    <p class="lead fade-in"><?php _e('Hear from businesses that have transformed their digital presence with us.', 'greentech'); ?></p>
-                </div>
+            <div class="section-header text-center">
+                <h2 class="section-title fade-in"><?php _e('What Our Clients Say', 'greentech'); ?></h2>
+                <p class="section-description fade-in">
+                    <?php _e('Don\'t just take our word for it. Here\'s what our satisfied clients have to say about our services.', 'greentech'); ?>
+                </p>
             </div>
             
-            <div class="testimonials-carousel">
-                <?php $testimonials = greentech_get_testimonials(); ?>
-                <?php foreach ($testimonials as $index => $testimonial) : ?>
-                    <div class="testimonial-item <?php echo $index === 0 ? 'active' : ''; ?> fade-in">
+            <div class="testimonials-carousel fade-in" id="testimonials-carousel">
+                <?php 
+                $testimonials = \GreenTech\greentech_get_testimonials();
+                foreach ($testimonials as $index => $testimonial) : 
+                    $active_class = $index === 0 ? 'active' : '';
+                ?>
+                    <div class="testimonial-item <?php echo $active_class; ?>">
                         <div class="testimonial-content">
-                            <p>"<?php echo esc_html($testimonial['content']); ?>"</p>
+                            <?php echo esc_html($testimonial['content']); ?>
                         </div>
                         <div class="testimonial-author">
-                            <img src="<?php echo esc_url($testimonial['avatar']); ?>" alt="<?php echo esc_attr($testimonial['author']); ?>" class="testimonial-avatar">
+                            <img src="<?php echo esc_url($testimonial['avatar']); ?>" alt="<?php echo esc_attr($testimonial['author']); ?>" class="testimonial-avatar" loading="lazy">
                             <div class="testimonial-info">
                                 <h4><?php echo esc_html($testimonial['author']); ?></h4>
                                 <p><?php echo esc_html($testimonial['position']); ?></p>
@@ -136,17 +168,23 @@ get_header(); ?>
     </section>
 
     <!-- Technology Logos Section -->
-    <section class="tech-logos section-sm">
+    <section id="technologies" class="tech-logos section-sm">
         <div class="container">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <h2 class="fade-in"><?php _e('Technologies We Work With', 'greentech'); ?></h2>
-                </div>
+            <div class="section-header text-center">
+                <h2 class="section-title fade-in"><?php _e('Technologies We Work With', 'greentech'); ?></h2>
+                <p class="section-description fade-in">
+                    <?php _e('We use cutting-edge technologies and platforms to deliver exceptional results.', 'greentech'); ?>
+                </p>
             </div>
+            
             <div class="tech-grid">
-                <?php foreach (greentech_get_technologies() as $tech) : ?>
-                    <div class="tech-logo fade-in">
-                        <img src="<?php echo esc_url($tech['logo']); ?>" alt="<?php echo esc_attr($tech['name']); ?>">
+                <?php 
+                $technologies = \GreenTech\greentech_get_technologies();
+                foreach ($technologies as $index => $tech) : 
+                    $delay = $index * 0.05;
+                ?>
+                    <div class="tech-logo scale-in" style="animation-delay: <?php echo $delay; ?>s;">
+                        <img src="<?php echo esc_url($tech['logo']); ?>" alt="<?php echo esc_attr($tech['name']); ?>" loading="lazy">
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -154,65 +192,127 @@ get_header(); ?>
     </section>
 
     <!-- Contact CTA Section -->
-    <section id="contact" class="section bg-light">
+    <section id="contact" class="cta-section bg-primary section">
         <div class="container">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <h2 class="fade-in"><?php _e('Ready to Start Your Project?', 'greentech'); ?></h2>
-                    <p class="lead fade-in"><?php _e('Let\'s discuss how we can help you achieve your digital goals.', 'greentech'); ?></p>
-                    <div class="fade-in">
-                        <a href="mailto:<?php echo get_theme_mod('contact_email', 'inquiry@greentech.guru'); ?>" class="btn btn-primary btn-large">
-                            <?php _e('Get Free Quote', 'greentech'); ?>
-                        </a>
-                        <a href="tel:<?php echo get_theme_mod('contact_phone', '0544-277588'); ?>" class="btn btn-outline btn-large">
-                            <?php _e('Call Us Now', 'greentech'); ?>
-                        </a>
-                    </div>
+            <div class="cta-content text-center fade-in">
+                <h2 class="cta-title"><?php _e('Ready to Start Your Project?', 'greentech'); ?></h2>
+                <p class="cta-description">
+                    <?php _e('Contact us today to discuss your web development, hosting, or digital marketing needs. Let\'s build something amazing together.', 'greentech'); ?>
+                </p>
+                
+                <!-- Contact Information Display -->
+                <div class="contact-info-grid">
+                    <?php 
+                    $contact = \GreenTech\greentech_get_contact_info();
+                    ?>
+                    
+                    <?php if ($contact['phone']) : ?>
+                        <div class="contact-item">
+                            <div class="contact-icon">📞</div>
+                            <div class="contact-details">
+                                <h4><?php _e('Call Us', 'greentech'); ?></h4>
+                                <a href="tel:<?php echo esc_attr($contact['phone']); ?>"><?php echo esc_html($contact['phone']); ?></a>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <?php if ($contact['email']) : ?>
+                        <div class="contact-item">
+                            <div class="contact-icon">✉️</div>
+                            <div class="contact-details">
+                                <h4><?php _e('Email Us', 'greentech'); ?></h4>
+                                <a href="mailto:<?php echo esc_attr($contact['email']); ?>"><?php echo esc_html($contact['email']); ?></a>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <?php if ($contact['address']) : ?>
+                        <div class="contact-item">
+                            <div class="contact-icon">📍</div>
+                            <div class="contact-details">
+                                <h4><?php _e('Visit Us', 'greentech'); ?></h4>
+                                <p><?php echo esc_html($contact['address']); ?></p>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                
+                <div class="btn-group mt-12">
+                    <a href="<?php echo esc_url($contact['email'] ? 'mailto:' . $contact['email'] : '#'); ?>" class="btn btn-lg btn-outline">
+                        <?php _e('Send Email', 'greentech'); ?>
+                    </a>
+                    <a href="<?php echo esc_url($contact['phone'] ? 'tel:' . $contact['phone'] : '#'); ?>" class="btn btn-lg btn-primary">
+                        <?php _e('Call Now', 'greentech'); ?>
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Recent Blog Posts -->
-    <section class="section">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <h2 class="fade-in"><?php _e('Latest from Our Blog', 'greentech'); ?></h2>
-                    <p class="lead fade-in"><?php _e('Stay updated with the latest trends and insights from our team.', 'greentech'); ?></p>
+    <?php 
+    $recent_posts = get_posts([
+        'posts_per_page' => 3,
+        'post_status' => 'publish'
+    ]);
+    
+    if ($recent_posts) : ?>
+        <section id="blog" class="blog-section section">
+            <div class="container">
+                <div class="section-header text-center">
+                    <h2 class="section-title fade-in"><?php _e('Latest from Our Blog', 'greentech'); ?></h2>
+                    <p class="section-description fade-in">
+                        <?php _e('Stay updated with the latest trends, tips, and insights from the world of web development and digital marketing.', 'greentech'); ?>
+                    </p>
                 </div>
-            </div>
-            <div class="row">
-                <?php 
-                $recent_posts = new WP_Query([
-                    'posts_per_page' => 3,
-                    'post_status' => 'publish'
-                ]);
                 
-                if ($recent_posts->have_posts()) : 
-                    while ($recent_posts->have_posts()) : $recent_posts->the_post(); ?>
-                        <div class="col-4">
-                            <article class="service-card fade-in">
-                                <?php if (has_post_thumbnail()) : ?>
-                                    <div class="portfolio-image">
-                                        <?php the_post_thumbnail('greentech-portfolio'); ?>
-                                    </div>
-                                <?php endif; ?>
-                                <div class="portfolio-content">
-                                    <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-                                    <p><?php echo wp_trim_words(get_the_excerpt(), 15); ?></p>
-                                    <a href="<?php the_permalink(); ?>" class="btn btn-outline">
-                                        <?php _e('Read More', 'greentech'); ?>
+                <div class="blog-grid">
+                    <?php 
+                    foreach ($recent_posts as $index => $post) : 
+                        setup_postdata($post);
+                        $delay = $index * 0.1;
+                    ?>
+                        <article class="blog-card fade-in" style="animation-delay: <?php echo $delay; ?>s;">
+                            <?php if (has_post_thumbnail($post->ID)) : ?>
+                                <div class="blog-image">
+                                    <a href="<?php echo get_permalink($post->ID); ?>">
+                                        <?php echo get_the_post_thumbnail($post->ID, 'greentech-blog'); ?>
                                     </a>
                                 </div>
-                            </article>
-                        </div>
-                    <?php endwhile; 
-                    wp_reset_postdata();
-                endif; ?>
+                            <?php endif; ?>
+                            
+                            <div class="blog-content">
+                                <div class="blog-meta">
+                                    <time datetime="<?php echo get_the_date('c', $post->ID); ?>"><?php echo get_the_date('', $post->ID); ?></time>
+                                    <span class="blog-category">
+                                        <?php 
+                                        $categories = get_the_category($post->ID);
+                                        if ($categories) {
+                                            echo esc_html($categories[0]->name);
+                                        }
+                                        ?>
+                                    </span>
+                                </div>
+                                
+                                <h3><a href="<?php echo get_permalink($post->ID); ?>"><?php echo get_the_title($post->ID); ?></a></h3>
+                                <p><?php echo wp_trim_words(get_the_excerpt($post->ID), 20); ?></p>
+                                
+                                <a href="<?php echo get_permalink($post->ID); ?>" class="btn btn-outline btn-sm">
+                                    <?php _e('Read More', 'greentech'); ?>
+                                </a>
+                            </div>
+                        </article>
+                    <?php endforeach; wp_reset_postdata(); ?>
+                </div>
+                
+                <div class="text-center mt-12">
+                    <a href="<?php echo get_permalink(get_option('page_for_posts')); ?>" class="btn btn-primary btn-lg">
+                        <?php _e('View All Posts', 'greentech'); ?>
+                    </a>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    <?php endif; ?>
 
 <?php else : ?>
     <!-- Regular Blog Index -->

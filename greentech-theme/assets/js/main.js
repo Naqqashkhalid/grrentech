@@ -1,356 +1,512 @@
 /**
  * GreenTech Theme JavaScript
  * 
- * Handles smooth scrolling, animations, portfolio filtering, and other interactive features
+ * @package GreenTech
+ * @since 1.0.0
  */
 
 (function($) {
     'use strict';
 
-    // DOM Ready
+    // Wait for DOM to be ready
     $(document).ready(function() {
-        initScrollAnimations();
-        initPortfolioFiltering();
-        initMobileNavigation();
-        initTestimonialCarousel();
-        initSmoothScrolling();
-        initHeaderScrollEffect();
+        initializeTheme();
     });
 
     /**
-     * Initialize scroll-triggered animations
+     * Initialize all theme functionality
      */
-    function initScrollAnimations() {
-        const animatedElements = $('.fade-in, .scale-in');
+    function initializeTheme() {
+        // Core functionality
+        initSmoothScroll();
+        initScrollAnimations();
+        initScrollToTop();
+        initHeaderScrollEffect();
         
-        function checkAnimation() {
-            const windowHeight = $(window).height();
-            const windowTop = $(window).scrollTop();
-            
-            animatedElements.each(function() {
-                const element = $(this);
-                const elementTop = element.offset().top;
-                const elementHeight = element.outerHeight();
-                
-                // Check if element is in viewport
-                if (elementTop <= windowTop + windowHeight - 100 && 
-                    elementTop + elementHeight >= windowTop) {
-                    element.addClass('visible');
-                }
-            });
-        }
+        // Interactive features
+        initMobileMenu();
+        initPortfolioFilter();
+        initTestimonialCarousel();
+        initNewsletterForm();
         
-        // Check on scroll and resize
-        $(window).on('scroll resize', checkAnimation);
+        // Performance optimizations
+        initLazyLoading();
+        initImageOptimization();
         
-        // Initial check
-        checkAnimation();
+        // Accessibility
+        initA11yFeatures();
+        
+        console.log('GreenTech theme initialized successfully');
     }
 
     /**
-     * Initialize portfolio filtering
+     * Smooth scrolling for anchor links
      */
-    function initPortfolioFiltering() {
-        const filterButtons = $('.filter-btn');
-        const portfolioItems = $('.portfolio-item');
-        
-        filterButtons.on('click', function() {
-            const filter = $(this).data('filter');
-            
-            // Update active button
-            filterButtons.removeClass('active');
-            $(this).addClass('active');
-            
-            // Filter portfolio items
-            portfolioItems.each(function() {
-                const item = $(this);
-                const category = item.data('category');
-                
-                if (filter === 'all' || category === filter) {
-                    item.fadeIn(400);
-                } else {
-                    item.fadeOut(400);
-                }
-            });
-        });
-    }
-
-    /**
-     * Initialize mobile navigation
-     */
-    function initMobileNavigation() {
-        const menuToggle = $('.menu-toggle');
-        const navigation = $('.main-navigation');
-        const navigationMenu = $('#primary-menu');
-        
-        menuToggle.on('click', function() {
-            $(this).toggleClass('active');
-            navigationMenu.toggleClass('active');
-            
-            // Toggle menu visibility
-            if (navigationMenu.hasClass('active')) {
-                navigationMenu.slideDown(300);
-            } else {
-                navigationMenu.slideUp(300);
-            }
-        });
-        
-        // Close menu when clicking outside
-        $(document).on('click', function(e) {
-            if (!navigation.is(e.target) && navigation.has(e.target).length === 0) {
-                menuToggle.removeClass('active');
-                navigationMenu.removeClass('active').slideUp(300);
-            }
-        });
-        
-        // Close menu when clicking on menu items
-        navigationMenu.find('a').on('click', function() {
-            menuToggle.removeClass('active');
-            navigationMenu.removeClass('active').slideUp(300);
-        });
-    }
-
-    /**
-     * Initialize testimonial carousel
-     */
-    function initTestimonialCarousel() {
-        const testimonials = $('.testimonial-item');
-        let currentTestimonial = 0;
-        
-        if (testimonials.length > 1) {
-            // Hide all testimonials except the first
-            testimonials.hide();
-            testimonials.first().show();
-            
-            // Auto-rotate testimonials
-            setInterval(function() {
-                testimonials.eq(currentTestimonial).fadeOut(500, function() {
-                    currentTestimonial = (currentTestimonial + 1) % testimonials.length;
-                    testimonials.eq(currentTestimonial).fadeIn(500);
-                });
-            }, 5000);
-        }
-    }
-
-    /**
-     * Initialize smooth scrolling for anchor links
-     */
-    function initSmoothScrolling() {
-        $('a[href*="#"]:not([href="#"])').on('click', function() {
+    function initSmoothScroll() {
+        $('a[href*="#"]:not([href="#"])').on('click', function(e) {
             if (location.pathname.replace(/^\//, '') === this.pathname.replace(/^\//, '') && 
                 location.hostname === this.hostname) {
                 
-                let target = $(this.hash);
-                target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                const target = $(this.hash);
+                const $target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
                 
-                if (target.length) {
+                if ($target.length) {
+                    e.preventDefault();
+                    
+                    const offset = $('.site-header').outerHeight() || 80;
+                    const scrollPosition = $target.offset().top - offset;
+                    
                     $('html, body').animate({
-                        scrollTop: target.offset().top - 80
-                    }, 1000, 'easeInOutExpo');
-                    return false;
+                        scrollTop: scrollPosition
+                    }, 800, 'easeInOutCubic');
+                    
+                    // Update URL hash
+                    if (history.pushState) {
+                        history.pushState(null, null, this.hash);
+                    }
                 }
             }
         });
     }
 
     /**
-     * Initialize header scroll effect
+     * Scroll animations using Intersection Observer
      */
-    function initHeaderScrollEffect() {
-        const header = $('.site-header');
-        
-        $(window).on('scroll', function() {
-            if ($(window).scrollTop() > 100) {
-                header.addClass('scrolled');
-            } else {
-                header.removeClass('scrolled');
-            }
-        });
-    }
+    function initScrollAnimations() {
+        // Check for Intersection Observer support
+        if ('IntersectionObserver' in window) {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
 
-    /**
-     * Initialize loading animations
-     */
-    function initLoadingAnimations() {
-        // Fade in body when page loads
-        $('body').addClass('loaded');
-        
-        // Animate elements on page load
-        setTimeout(function() {
-            $('.hero .fade-in').each(function(index) {
-                const element = $(this);
-                setTimeout(function() {
-                    element.addClass('visible');
-                }, index * 200);
-            });
-        }, 500);
-    }
-
-    // Initialize loading animations after page load
-    $(window).on('load', function() {
-        initLoadingAnimations();
-    });
-
-    /**
-     * Initialize contact form handling
-     */
-    function initContactForm() {
-        const contactForm = $('#contact-form');
-        
-        if (contactForm.length) {
-            contactForm.on('submit', function(e) {
-                e.preventDefault();
-                
-                const formData = $(this).serialize();
-                const submitButton = $(this).find('button[type="submit"]');
-                const originalText = submitButton.text();
-                
-                // Show loading state
-                submitButton.text('Sending...').prop('disabled', true);
-                
-                // Send form data via AJAX
-                $.ajax({
-                    url: greentech_ajax.ajax_url,
-                    type: 'POST',
-                    data: {
-                        action: 'handle_contact_form',
-                        nonce: greentech_ajax.nonce,
-                        form_data: formData
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            showNotification('Thank you! Your message has been sent successfully.', 'success');
-                            contactForm[0].reset();
-                        } else {
-                            showNotification('Sorry, there was an error sending your message. Please try again.', 'error');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        
+                        // Add staggered animation delays for grid items
+                        if (entry.target.parentElement.classList.contains('services-grid') ||
+                            entry.target.parentElement.classList.contains('portfolio-grid')) {
+                            const siblings = Array.from(entry.target.parentElement.children);
+                            const index = siblings.indexOf(entry.target);
+                            entry.target.style.animationDelay = `${index * 0.1}s`;
                         }
-                    },
-                    error: function() {
-                        showNotification('Sorry, there was an error sending your message. Please try again.', 'error');
-                    },
-                    complete: function() {
-                        submitButton.text(originalText).prop('disabled', false);
+                        
+                        observer.unobserve(entry.target);
                     }
                 });
+            }, observerOptions);
+
+            // Observe all elements with animation classes
+            $('.fade-in, .scale-in, .slide-in-left, .slide-in-right').each(function() {
+                observer.observe(this);
+            });
+        } else {
+            // Fallback for browsers without Intersection Observer
+            $('.fade-in, .scale-in, .slide-in-left, .slide-in-right').addClass('visible');
+        }
+    }
+
+    /**
+     * Back to top button
+     */
+    function initScrollToTop() {
+        const $backToTop = $('#back-to-top');
+        
+        if ($backToTop.length) {
+            $(window).on('scroll', throttle(() => {
+                if ($(window).scrollTop() > 500) {
+                    $backToTop.fadeIn();
+                } else {
+                    $backToTop.fadeOut();
+                }
+            }, 100));
+
+            $backToTop.on('click', function(e) {
+                e.preventDefault();
+                $('html, body').animate({ scrollTop: 0 }, 800);
             });
         }
     }
 
     /**
-     * Show notification
+     * Header scroll effects
      */
-    function showNotification(message, type) {
-        const notification = $('<div class="notification notification-' + type + '">' + message + '</div>');
-        $('body').append(notification);
-        
-        setTimeout(function() {
-            notification.addClass('show');
-        }, 100);
-        
-        setTimeout(function() {
-            notification.removeClass('show');
-            setTimeout(function() {
-                notification.remove();
-            }, 300);
-        }, 3000);
+    function initHeaderScrollEffect() {
+        const $header = $('.site-header');
+        let lastScrollTop = 0;
+
+        $(window).on('scroll', throttle(() => {
+            const scrollTop = $(window).scrollTop();
+            
+            // Add scrolled class after scrolling
+            if (scrollTop > 50) {
+                $header.addClass('scrolled');
+            } else {
+                $header.removeClass('scrolled');
+            }
+            
+            // Hide/show header on scroll (optional)
+            if (scrollTop > lastScrollTop && scrollTop > 200) {
+                $header.addClass('header-hidden');
+            } else {
+                $header.removeClass('header-hidden');
+            }
+            
+            lastScrollTop = scrollTop;
+        }, 10));
     }
 
     /**
-     * Initialize lazy loading for images
+     * Mobile menu functionality
+     */
+    function initMobileMenu() {
+        const $menuToggle = $('.menu-toggle');
+        const $primaryMenu = $('#primary-menu');
+        const $body = $('body');
+
+        $menuToggle.on('click', function() {
+            const isExpanded = $(this).attr('aria-expanded') === 'true';
+            
+            $(this).attr('aria-expanded', !isExpanded);
+            $(this).toggleClass('active');
+            $primaryMenu.toggleClass('active');
+            $body.toggleClass('menu-open');
+        });
+
+        // Close menu when clicking on links
+        $primaryMenu.find('a').on('click', function() {
+            $menuToggle.attr('aria-expanded', 'false');
+            $menuToggle.removeClass('active');
+            $primaryMenu.removeClass('active');
+            $body.removeClass('menu-open');
+        });
+
+        // Close menu when clicking outside
+        $(document).on('click', function(e) {
+            if (!$(e.target).closest('.main-navigation').length) {
+                $menuToggle.attr('aria-expanded', 'false');
+                $menuToggle.removeClass('active');
+                $primaryMenu.removeClass('active');
+                $body.removeClass('menu-open');
+            }
+        });
+
+        // Handle escape key
+        $(document).on('keydown', function(e) {
+            if (e.key === 'Escape' && $primaryMenu.hasClass('active')) {
+                $menuToggle.trigger('click');
+            }
+        });
+    }
+
+    /**
+     * Portfolio filtering
+     */
+    function initPortfolioFilter() {
+        const $filterButtons = $('.filter-btn');
+        const $portfolioItems = $('.portfolio-item');
+
+        $filterButtons.on('click', function() {
+            const filter = $(this).data('filter');
+            
+            // Update active button
+            $filterButtons.removeClass('active');
+            $(this).addClass('active');
+            
+            // Filter portfolio items
+            $portfolioItems.each(function() {
+                const $item = $(this);
+                const category = $item.data('category');
+                
+                if (filter === 'all' || category === filter) {
+                    $item.removeClass('hidden').addClass('visible');
+                } else {
+                    $item.addClass('hidden').removeClass('visible');
+                }
+            });
+        });
+    }
+
+    /**
+     * Testimonial carousel
+     */
+    function initTestimonialCarousel() {
+        const $carousel = $('#testimonials-carousel');
+        const $items = $carousel.find('.testimonial-item');
+        
+        if ($items.length <= 1) return;
+        
+        let currentIndex = 0;
+        const itemCount = $items.length;
+        
+        // Auto-rotate testimonials
+        setInterval(() => {
+            $items.eq(currentIndex).removeClass('active');
+            currentIndex = (currentIndex + 1) % itemCount;
+            $items.eq(currentIndex).addClass('active');
+        }, 5000);
+        
+        // Optional: Add manual controls
+        if ($('.testimonial-controls').length) {
+            $('.testimonial-prev').on('click', () => {
+                $items.eq(currentIndex).removeClass('active');
+                currentIndex = currentIndex === 0 ? itemCount - 1 : currentIndex - 1;
+                $items.eq(currentIndex).addClass('active');
+            });
+            
+            $('.testimonial-next').on('click', () => {
+                $items.eq(currentIndex).removeClass('active');
+                currentIndex = (currentIndex + 1) % itemCount;
+                $items.eq(currentIndex).addClass('active');
+            });
+        }
+    }
+
+    /**
+     * Newsletter form handling
+     */
+    function initNewsletterForm() {
+        $('.newsletter-form').on('submit', function(e) {
+            e.preventDefault();
+            
+            const $form = $(this);
+            const $submitBtn = $form.find('button[type="submit"]');
+            const originalText = $submitBtn.text();
+            
+            // Show loading state
+            $submitBtn.text('Subscribing...').prop('disabled', true);
+            
+            // Simulate form submission (replace with actual AJAX call)
+            setTimeout(() => {
+                $submitBtn.text('Subscribed!').addClass('success');
+                $form.find('input[type="email"]').val('');
+                
+                setTimeout(() => {
+                    $submitBtn.text(originalText).removeClass('success').prop('disabled', false);
+                }, 2000);
+            }, 1000);
+        });
+    }
+
+    /**
+     * Lazy loading for images
      */
     function initLazyLoading() {
-        const lazyImages = $('img[data-src]');
-        
-        if (lazyImages.length && 'IntersectionObserver' in window) {
-            const imageObserver = new IntersectionObserver(function(entries, observer) {
-                entries.forEach(function(entry) {
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         const img = entry.target;
-                        img.src = img.dataset.src;
-                        img.classList.remove('lazy');
-                        imageObserver.unobserve(img);
+                        
+                        if (img.dataset.src) {
+                            img.src = img.dataset.src;
+                            img.classList.remove('lazy');
+                            img.classList.add('loaded');
+                            imageObserver.unobserve(img);
+                        }
                     }
                 });
             });
-            
-            lazyImages.each(function() {
+
+            $('.lazy, img[data-src]').each(function() {
                 imageObserver.observe(this);
             });
         }
     }
 
-    // Initialize lazy loading
-    initLazyLoading();
+    /**
+     * Image optimization and progressive loading
+     */
+    function initImageOptimization() {
+        // Add loading placeholder for images
+        $('img:not(.loaded)').on('load', function() {
+            $(this).addClass('loaded');
+        });
 
-    // Custom easing function
-    $.easing.easeInOutExpo = function(x, t, b, c, d) {
-        if (t === 0) return b;
-        if (t === d) return b + c;
-        if ((t /= d / 2) < 1) return c / 2 * Math.pow(2, 10 * (t - 1)) + b;
-        return c / 2 * (-Math.pow(2, -10 * --t) + 2) + b;
-    };
-
-    // Initialize everything after DOM is ready
-    $(document).ready(function() {
-        initContactForm();
-    });
-
-})(jQuery);
-
-/**
- * Vanilla JavaScript for performance-critical features
- */
-document.addEventListener('DOMContentLoaded', function() {
-    
-    // Initialize parallax effect for hero section
-    const hero = document.querySelector('.hero');
-    if (hero) {
-        window.addEventListener('scroll', function() {
-            const scrolled = window.pageYOffset;
-            const rate = scrolled * -0.5;
-            hero.style.transform = 'translateY(' + rate + 'px)';
+        // Handle image errors
+        $('img').on('error', function() {
+            $(this).addClass('error').attr('alt', 'Image failed to load');
         });
     }
-    
-    // Initialize tech logo hover effects
-    const techLogos = document.querySelectorAll('.tech-logo');
-    techLogos.forEach(function(logo) {
-        logo.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-5px) scale(1.05)';
-        });
-        
-        logo.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) scale(1)';
-        });
-    });
-    
-    // Initialize service card animations
-    const serviceCards = document.querySelectorAll('.service-card');
-    serviceCards.forEach(function(card) {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-10px)';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
-        });
-    });
-    
-    // Initialize portfolio item animations
-    const portfolioItems = document.querySelectorAll('.portfolio-item');
-    portfolioItems.forEach(function(item) {
-        item.addEventListener('mouseenter', function() {
-            const image = this.querySelector('.portfolio-image img');
-            if (image) {
-                image.style.transform = 'scale(1.1)';
+
+    /**
+     * Accessibility features
+     */
+    function initA11yFeatures() {
+        // Skip link functionality
+        $('.skip-link').on('click', function(e) {
+            const target = $($(this).attr('href'));
+            if (target.length) {
+                target.attr('tabindex', '-1').focus();
             }
         });
-        
-        item.addEventListener('mouseleave', function() {
-            const image = this.querySelector('.portfolio-image img');
-            if (image) {
-                image.style.transform = 'scale(1)';
+
+        // Keyboard navigation for mobile menu
+        $('.menu-toggle').on('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                $(this).trigger('click');
             }
         });
-    });
-});
+
+        // Focus management for modals/popups
+        $(document).on('keydown', function(e) {
+            // Trap focus in open modals
+            if (e.key === 'Tab') {
+                const $modal = $('.modal.active, .popup.active');
+                if ($modal.length) {
+                    const $focusable = $modal.find('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+                    const $first = $focusable.first();
+                    const $last = $focusable.last();
+
+                    if (e.shiftKey) {
+                        if (document.activeElement === $first[0]) {
+                            e.preventDefault();
+                            $last.focus();
+                        }
+                    } else {
+                        if (document.activeElement === $last[0]) {
+                            e.preventDefault();
+                            $first.focus();
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * Utility Functions
+     */
+
+    // Throttle function for performance
+    function throttle(func, limit) {
+        let inThrottle;
+        return function() {
+            const args = arguments;
+            const context = this;
+            if (!inThrottle) {
+                func.apply(context, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        };
+    }
+
+    // Debounce function for performance
+    function debounce(func, wait, immediate) {
+        let timeout;
+        return function() {
+            const context = this, args = arguments;
+            const later = function() {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            };
+            const callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) func.apply(context, args);
+        };
+    }
+
+    // Custom easing function
+    $.easing.easeInOutCubic = function(x) {
+        return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+    };
+
+    /**
+     * Advanced Features
+     */
+
+    // Parallax scrolling (optional)
+    function initParallax() {
+        if (window.innerWidth > 768) { // Only on desktop
+            $(window).on('scroll', throttle(() => {
+                const scrolled = $(window).scrollTop();
+                $('.parallax').each(function() {
+                    const rate = scrolled * -0.5;
+                    $(this).css('transform', `translateY(${rate}px)`);
+                });
+            }, 16));
+        }
+    }
+
+    // Contact form validation
+    function initContactForm() {
+        $('.contact-form').on('submit', function(e) {
+            e.preventDefault();
+            
+            const $form = $(this);
+            let isValid = true;
+            
+            // Basic validation
+            $form.find('[required]').each(function() {
+                const $field = $(this);
+                const value = $field.val().trim();
+                
+                if (!value) {
+                    isValid = false;
+                    $field.addClass('error');
+                } else {
+                    $field.removeClass('error');
+                }
+                
+                // Email validation
+                if ($field.attr('type') === 'email' && value) {
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(value)) {
+                        isValid = false;
+                        $field.addClass('error');
+                    }
+                }
+            });
+            
+            if (isValid) {
+                // Submit form via AJAX
+                submitContactForm($form);
+            }
+        });
+    }
+
+    // Initialize advanced features if needed
+    if ($('.parallax').length) {
+        initParallax();
+    }
+    
+    if ($('.contact-form').length) {
+        initContactForm();
+    }
+
+    // Search functionality enhancement
+    $('.search-form input').on('input', debounce(function() {
+        const query = $(this).val();
+        if (query.length > 2) {
+            // Implement live search suggestions
+            // This would typically involve AJAX calls to WordPress
+        }
+    }, 300));
+
+    // Performance monitoring
+    if (window.performance && window.performance.timing) {
+        $(window).on('load', function() {
+            const loadTime = window.performance.timing.loadEventEnd - window.performance.timing.navigationStart;
+            console.log(`Page load time: ${loadTime}ms`);
+        });
+    }
+
+    // Service Worker registration (for advanced PWA features)
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('/sw.js')
+                .then(function(registration) {
+                    console.log('SW registered: ', registration);
+                })
+                .catch(function(registrationError) {
+                    console.log('SW registration failed: ', registrationError);
+                });
+        });
+    }
+
+})(jQuery);
