@@ -1,9 +1,12 @@
 <?php
 /**
  * The sidebar containing the main widget area
- *
+ * 
  * @package GreenTech
+ * @since 1.0.0
  */
+
+namespace GreenTech;
 
 if (!is_active_sidebar('sidebar-1')) {
     return;

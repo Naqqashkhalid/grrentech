@@ -2,8 +2,7 @@
 /**
  * GreenTech Theme Functions
  * 
- * Main functions file that bootstraps the theme using OOP principles
- * and modern WordPress development practices.
+ * Modern WordPress theme built for Gutenberg with clean OOP architecture.
  * 
  * @package GreenTech
  * @since 1.0.0
@@ -76,16 +75,13 @@ class Theme {
         new Theme_Setup();
         new Assets();
         new Customizer();
-        new Navigation();
-        new Template_Functions();
+        new Block_Styles();
+        new Block_Patterns();
         
-        // Load optional classes based on conditions
+        // Load admin classes if in admin
         if (is_admin()) {
             new Admin();
         }
-        
-        // Load performance optimizations
-        new Performance();
     }
     
     /**
@@ -93,8 +89,10 @@ class Theme {
      */
     private function init_hooks() {
         add_action('after_setup_theme', [$this, 'setup']);
-        add_action('init', [$this, 'init']);
+        add_action('wp_enqueue_scripts', [$this, 'enqueue_scripts']);
+        add_action('enqueue_block_editor_assets', [$this, 'enqueue_editor_assets']);
         add_filter('body_class', [$this, 'body_classes']);
+        add_action('wp_head', [$this, 'add_meta_tags']);
     }
     
     /**
@@ -117,51 +115,149 @@ class Theme {
             'style',
             'script'
         ]);
-        add_theme_support('customize-selective-refresh-widgets');
-        add_theme_support('custom-header');
-        add_theme_support('custom-background');
+        
+        // Add Gutenberg support
+        add_theme_support('wp-block-styles');
+        add_theme_support('align-wide');
+        add_theme_support('editor-styles');
+        add_theme_support('responsive-embeds');
+        add_theme_support('custom-spacing');
+        add_theme_support('custom-units');
+        add_theme_support('link-color');
+        add_theme_support('border');
+        
+        // Add custom logo support
         add_theme_support('custom-logo', [
             'height' => 100,
             'width' => 400,
             'flex-height' => true,
             'flex-width' => true,
+            'header-text' => ['site-title', 'site-description'],
+            'unlink-homepage-logo' => true,
         ]);
         
-        // Add WooCommerce support
-        add_theme_support('woocommerce');
-        add_theme_support('wc-product-gallery-zoom');
-        add_theme_support('wc-product-gallery-lightbox');
-        add_theme_support('wc-product-gallery-slider');
+        // Add custom background support
+        add_theme_support('custom-background', [
+            'default-color' => 'ffffff',
+        ]);
+        
+        // Add custom header support
+        add_theme_support('custom-header', [
+            'default-image' => '',
+            'width' => 1920,
+            'height' => 800,
+            'flex-height' => true,
+            'flex-width' => true,
+            'header-text' => true,
+        ]);
+        
+        // Register navigation menus
+        register_nav_menus([
+            'primary' => __('Primary Menu', 'greentech'),
+            'footer' => __('Footer Menu', 'greentech'),
+            'social' => __('Social Links Menu', 'greentech'),
+        ]);
         
         // Set content width
         if (!isset($content_width)) {
             $content_width = 1200;
         }
         
-        // Register image sizes
-        add_image_size('greentech-hero', 1920, 800, true);
-        add_image_size('greentech-portfolio', 400, 300, true);
-        add_image_size('greentech-service', 300, 200, true);
-        add_image_size('greentech-testimonial', 100, 100, true);
-        add_image_size('greentech-blog', 600, 400, true);
+        // Add editor styles
+        add_editor_style('assets/css/editor-style.css');
+        
+        // Add theme.json support
+        add_theme_support('appearance-tools');
+        
+        // Remove core block patterns
+        remove_theme_support('core-block-patterns');
     }
     
     /**
-     * Initialize theme components
+     * Enqueue scripts and styles
      */
-    public function init() {
-        // Register custom post types if needed
-        $this->register_post_types();
+    public function enqueue_scripts() {
+        // Main stylesheet
+        wp_enqueue_style(
+            'greentech-style',
+            get_stylesheet_uri(),
+            [],
+            $this->version
+        );
         
-        // Register custom taxonomies if needed
-        $this->register_taxonomies();
+        // Google Fonts
+        $google_fonts_url = $this->get_google_fonts_url();
+        if ($google_fonts_url) {
+            wp_enqueue_style(
+                'greentech-google-fonts',
+                $google_fonts_url,
+                [],
+                null
+            );
+        }
+        
+        // Main JavaScript
+        wp_enqueue_script(
+            'greentech-main',
+            GREENTECH_ASSETS_URI . '/js/main.js',
+            ['jquery'],
+            $this->version,
+            true
+        );
+        
+        // Localize script
+        wp_localize_script('greentech-main', 'greentech_ajax', [
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('greentech_nonce'),
+        ]);
+        
+        // Comment reply script
+        if (is_singular() && comments_open() && get_option('thread_comments')) {
+            wp_enqueue_script('comment-reply');
+        }
+    }
+    
+    /**
+     * Enqueue editor assets
+     */
+    public function enqueue_editor_assets() {
+        // Editor styles
+        wp_enqueue_style(
+            'greentech-editor-style',
+            GREENTECH_ASSETS_URI . '/css/editor-style.css',
+            ['wp-edit-blocks'],
+            $this->version
+        );
+        
+        // Editor script
+        wp_enqueue_script(
+            'greentech-editor-script',
+            GREENTECH_ASSETS_URI . '/js/editor.js',
+            ['wp-blocks', 'wp-dom-ready', 'wp-edit-post'],
+            $this->version,
+            true
+        );
+    }
+    
+    /**
+     * Get Google Fonts URL
+     */
+    private function get_google_fonts_url() {
+        $fonts = [
+            'Inter:wght@300;400;500;600;700;800',
+            'Poppins:wght@300;400;500;600;700;800'
+        ];
+        
+        $fonts_url = add_query_arg([
+            'family' => implode('&family=', $fonts),
+            'display' => 'swap',
+        ], 'https://fonts.googleapis.com/css2');
+        
+        return $fonts_url;
     }
     
     /**
      * Add custom body classes
-     * 
-     * @param array $classes Existing body classes
-     * @return array Modified body classes
      */
     public function body_classes($classes) {
         // Add page-specific classes
@@ -169,138 +265,36 @@ class Theme {
             $classes[] = 'home-page';
         }
         
-        if (is_page_template('page-services.php')) {
-            $classes[] = 'services-page';
+        if (is_page()) {
+            $classes[] = 'page-' . get_post_field('post_name');
         }
         
-        if (is_page_template('page-portfolio.php')) {
-            $classes[] = 'portfolio-page';
+        // Add customizer classes
+        if (get_theme_mod('header_sticky', true)) {
+            $classes[] = 'has-sticky-header';
         }
         
-        if (is_page_template('page-contact.php')) {
-            $classes[] = 'contact-page';
-        }
-        
-        // Add browser-specific classes
-        if (is_singular() && comments_open() && get_option('thread_comments')) {
-            $classes[] = 'threaded-comments';
+        if (get_theme_mod('layout_boxed', false)) {
+            $classes[] = 'layout-boxed';
         }
         
         return $classes;
     }
     
     /**
-     * Register custom post types
+     * Add meta tags to head
      */
-    private function register_post_types() {
-        // Portfolio post type
-        register_post_type('portfolio', [
-            'labels' => [
-                'name' => __('Portfolio', 'greentech'),
-                'singular_name' => __('Portfolio Item', 'greentech'),
-                'add_new' => __('Add New', 'greentech'),
-                'add_new_item' => __('Add New Portfolio Item', 'greentech'),
-                'edit_item' => __('Edit Portfolio Item', 'greentech'),
-                'new_item' => __('New Portfolio Item', 'greentech'),
-                'view_item' => __('View Portfolio Item', 'greentech'),
-                'search_items' => __('Search Portfolio', 'greentech'),
-                'not_found' => __('No portfolio items found', 'greentech'),
-                'not_found_in_trash' => __('No portfolio items found in trash', 'greentech'),
-            ],
-            'public' => true,
-            'publicly_queryable' => true,
-            'show_ui' => true,
-            'show_in_menu' => true,
-            'query_var' => true,
-            'rewrite' => ['slug' => 'portfolio'],
-            'capability_type' => 'post',
-            'has_archive' => true,
-            'hierarchical' => false,
-            'menu_position' => 5,
-            'menu_icon' => 'dashicons-portfolio',
-            'supports' => ['title', 'editor', 'thumbnail', 'excerpt', 'custom-fields'],
-            'show_in_rest' => true,
-        ]);
+    public function add_meta_tags() {
+        // Viewport meta tag
+        echo '<meta name="viewport" content="width=device-width, initial-scale=1">' . "\n";
         
-        // Services post type
-        register_post_type('service', [
-            'labels' => [
-                'name' => __('Services', 'greentech'),
-                'singular_name' => __('Service', 'greentech'),
-                'add_new' => __('Add New', 'greentech'),
-                'add_new_item' => __('Add New Service', 'greentech'),
-                'edit_item' => __('Edit Service', 'greentech'),
-                'new_item' => __('New Service', 'greentech'),
-                'view_item' => __('View Service', 'greentech'),
-                'search_items' => __('Search Services', 'greentech'),
-                'not_found' => __('No services found', 'greentech'),
-                'not_found_in_trash' => __('No services found in trash', 'greentech'),
-            ],
-            'public' => true,
-            'publicly_queryable' => true,
-            'show_ui' => true,
-            'show_in_menu' => true,
-            'query_var' => true,
-            'rewrite' => ['slug' => 'services'],
-            'capability_type' => 'post',
-            'has_archive' => true,
-            'hierarchical' => false,
-            'menu_position' => 6,
-            'menu_icon' => 'dashicons-admin-tools',
-            'supports' => ['title', 'editor', 'thumbnail', 'excerpt', 'custom-fields'],
-            'show_in_rest' => true,
-        ]);
-    }
-    
-    /**
-     * Register custom taxonomies
-     */
-    private function register_taxonomies() {
-        // Portfolio categories
-        register_taxonomy('portfolio_category', 'portfolio', [
-            'hierarchical' => true,
-            'labels' => [
-                'name' => __('Portfolio Categories', 'greentech'),
-                'singular_name' => __('Portfolio Category', 'greentech'),
-                'search_items' => __('Search Portfolio Categories', 'greentech'),
-                'all_items' => __('All Portfolio Categories', 'greentech'),
-                'parent_item' => __('Parent Portfolio Category', 'greentech'),
-                'parent_item_colon' => __('Parent Portfolio Category:', 'greentech'),
-                'edit_item' => __('Edit Portfolio Category', 'greentech'),
-                'update_item' => __('Update Portfolio Category', 'greentech'),
-                'add_new_item' => __('Add New Portfolio Category', 'greentech'),
-                'new_item_name' => __('New Portfolio Category Name', 'greentech'),
-                'menu_name' => __('Categories', 'greentech'),
-            ],
-            'show_ui' => true,
-            'show_admin_column' => true,
-            'query_var' => true,
-            'rewrite' => ['slug' => 'portfolio-category'],
-            'show_in_rest' => true,
-        ]);
+        // Theme color for mobile browsers
+        $primary_color = get_theme_mod('colors_primary', '#4CAF50');
+        echo '<meta name="theme-color" content="' . esc_attr($primary_color) . '">' . "\n";
         
-        // Service categories
-        register_taxonomy('service_category', 'service', [
-            'hierarchical' => true,
-            'labels' => [
-                'name' => __('Service Categories', 'greentech'),
-                'singular_name' => __('Service Category', 'greentech'),
-                'search_items' => __('Search Service Categories', 'greentech'),
-                'all_items' => __('All Service Categories', 'greentech'),
-                'parent_item' => __('Parent Service Category', 'greentech'),
-                'parent_item_colon' => __('Parent Service Category:', 'greentech'),
-                'edit_item' => __('Edit Service Category', 'greentech'),
-                'update_item' => __('Update Service Category', 'greentech'),
-                'add_new_item' => __('Add New Service Category', 'greentech'),
-                'new_item_name' => __('New Service Category Name', 'greentech'),
-                'menu_name' => __('Categories', 'greentech'),
-            ],
-            'show_ui' => true,
-            'show_admin_column' => true,
-            'query_var' => true,
-            'rewrite' => ['slug' => 'service-category'],
-            'show_in_rest' => true,
-        ]);
+        // Preconnect to Google Fonts
+        echo '<link rel="preconnect" href="https://fonts.googleapis.com">' . "\n";
+        echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
     }
 }
 
@@ -309,8 +303,6 @@ new Theme();
 
 /**
  * Helper function to get theme instance
- * 
- * @return Theme
  */
 function greentech() {
     static $instance = null;
@@ -327,418 +319,357 @@ function greentech() {
  */
 
 /**
- * Get services data
- * 
- * @return array Services data
+ * Get customizer option with default fallback
  */
-function greentech_get_services() {
-    return [
-        [
-            'title' => __('Web & App Development', 'greentech'),
-            'description' => __('Custom web applications, WordPress sites, mobile apps, ERP systems, and hosting solutions.', 'greentech'),
-            'icon' => '💻',
-            'services' => [
-                __('Web Development', 'greentech'),
-                __('WordPress Development', 'greentech'),
-                __('Mobile App Development', 'greentech'),
-                __('ERP Systems', 'greentech'),
-                __('Hosting & Cloud Service', 'greentech'),
-                __('Plugin & App Development', 'greentech')
-            ],
-            'category' => 'web-development'
-        ],
-        [
-            'title' => __('E-Commerce Development', 'greentech'),
-            'description' => __('Complete e-commerce solutions on major platforms with payment integration and optimization.', 'greentech'),
-            'icon' => '🛒',
-            'services' => [
-                __('Shopify Development', 'greentech'),
-                __('Shopify Plus', 'greentech'),
-                __('Magento Development', 'greentech'),
-                __('BigCommerce', 'greentech'),
-                __('WooCommerce', 'greentech')
-            ],
-            'category' => 'e-commerce'
-        ],
-        [
-            'title' => __('Graphic Designing', 'greentech'),
-            'description' => __('Professional design services for branding, print, digital, and user experience.', 'greentech'),
-            'icon' => '🎨',
-            'services' => [
-                __('Logo & Branding', 'greentech'),
-                __('Print Design', 'greentech'),
-                __('Product & Merchandise', 'greentech'),
-                __('Banners & Advertisement', 'greentech'),
-                __('UI/UX Design', 'greentech')
-            ],
-            'category' => 'design'
-        ],
-        [
-            'title' => __('Digital Marketing', 'greentech'),
-            'description' => __('Comprehensive digital marketing strategies to grow your online presence and conversions.', 'greentech'),
-            'icon' => '📈',
-            'services' => [
-                __('Performance Marketing', 'greentech'),
-                __('TikTok Marketing', 'greentech'),
-                __('SEO Services', 'greentech'),
-                __('Influencer Marketing', 'greentech'),
-                __('Social Media Marketing', 'greentech'),
-                __('Email Marketing', 'greentech'),
-                __('Conversion Rate Optimization', 'greentech')
-            ],
-            'category' => 'marketing'
-        ]
-    ];
+function greentech_get_option($option, $default = '') {
+    return get_theme_mod($option, $default);
 }
 
 /**
- * Get portfolio items
- * 
- * @return array Portfolio data
+ * Display site logo
  */
-function greentech_get_portfolio() {
-    // First try to get from custom post type
-    $portfolio_posts = get_posts([
-        'post_type' => 'portfolio',
-        'posts_per_page' => 12,
-        'post_status' => 'publish'
-    ]);
-    
-    if (!empty($portfolio_posts)) {
-        $portfolio = [];
-        foreach ($portfolio_posts as $post) {
-            $categories = get_the_terms($post->ID, 'portfolio_category');
-            $category_slug = !empty($categories) ? $categories[0]->slug : 'general';
-            
-            $portfolio[] = [
-                'title' => $post->post_title,
-                'description' => $post->post_excerpt ?: wp_trim_words($post->post_content, 20),
-                'image' => get_the_post_thumbnail_url($post->ID, 'greentech-portfolio') ?: (GREENTECH_ASSETS_URI . '/images/portfolio-placeholder.jpg'),
-                'category' => $category_slug,
-                'tags' => wp_get_post_terms($post->ID, 'portfolio_category', ['fields' => 'names']),
-                'url' => get_permalink($post->ID)
-            ];
+function greentech_site_logo() {
+    if (has_custom_logo()) {
+        the_custom_logo();
+    } else {
+        echo '<a href="' . esc_url(home_url('/')) . '" class="site-title-link">';
+        echo '<span class="site-title">' . get_bloginfo('name') . '</span>';
+        if (get_bloginfo('description')) {
+            echo '<span class="site-description">' . get_bloginfo('description') . '</span>';
         }
-        return $portfolio;
+        echo '</a>';
     }
+}
+
+/**
+ * Display navigation menu
+ */
+function greentech_nav_menu($location = 'primary', $args = []) {
+    $defaults = [
+        'theme_location' => $location,
+        'container' => 'nav',
+        'container_class' => $location . '-navigation',
+        'menu_class' => $location . '-menu',
+        'fallback_cb' => false,
+        'depth' => 2,
+    ];
     
-    // Fallback to static data
-    return [
-        [
-            'title' => __('E-Commerce Platform', 'greentech'),
-            'description' => __('Modern Shopify store with custom features and enhanced user experience.', 'greentech'),
-            'image' => GREENTECH_ASSETS_URI . '/images/portfolio-1.jpg',
-            'category' => 'e-commerce',
-            'tags' => ['Shopify', 'E-Commerce', 'Custom Development'],
-            'url' => '#'
-        ],
-        [
-            'title' => __('Corporate Website', 'greentech'),
-            'description' => __('Professional WordPress site for law firm with custom functionality.', 'greentech'),
-            'image' => GREENTECH_ASSETS_URI . '/images/portfolio-2.jpg',
-            'category' => 'web-development',
-            'tags' => ['WordPress', 'Corporate', 'Responsive'],
-            'url' => '#'
-        ],
-        [
-            'title' => __('Mobile App', 'greentech'),
-            'description' => __('Cross-platform mobile app for food delivery service.', 'greentech'),
-            'image' => GREENTECH_ASSETS_URI . '/images/portfolio-3.jpg',
-            'category' => 'mobile-app',
-            'tags' => ['React Native', 'Mobile', 'Food Delivery'],
-            'url' => '#'
-        ],
-        [
-            'title' => __('Brand Identity', 'greentech'),
-            'description' => __('Complete branding package for tech startup including logo and guidelines.', 'greentech'),
-            'image' => GREENTECH_ASSETS_URI . '/images/portfolio-4.jpg',
-            'category' => 'design',
-            'tags' => ['Branding', 'Logo Design', 'Identity'],
-            'url' => '#'
-        ],
-        [
-            'title' => __('SEO Campaign', 'greentech'),
-            'description' => __('Comprehensive SEO strategy that increased organic traffic by 300%.', 'greentech'),
-            'image' => GREENTECH_ASSETS_URI . '/images/portfolio-5.jpg',
-            'category' => 'marketing',
-            'tags' => ['SEO', 'Digital Marketing', 'Analytics'],
-            'url' => '#'
-        ],
-        [
-            'title' => __('SaaS Dashboard', 'greentech'),
-            'description' => __('Modern dashboard design for project management software.', 'greentech'),
-            'image' => GREENTECH_ASSETS_URI . '/images/portfolio-6.jpg',
-            'category' => 'web-development',
-            'tags' => ['SaaS', 'Dashboard', 'UI/UX'],
-            'url' => '#'
-        ]
-    ];
+    $args = wp_parse_args($args, $defaults);
+    
+    if (has_nav_menu($location)) {
+        wp_nav_menu($args);
+    }
 }
 
 /**
- * Get testimonials data
- * 
- * @return array Testimonials data
+ * Display social links menu
  */
-function greentech_get_testimonials() {
-    return [
-        [
-            'content' => __('GreenTech delivered an outstanding e-commerce platform that exceeded our expectations. Their attention to detail and technical expertise is remarkable.', 'greentech'),
-            'author' => 'Sarah Johnson',
-            'position' => __('CEO, Fashion Forward', 'greentech'),
-            'avatar' => GREENTECH_ASSETS_URI . '/images/testimonial-1.jpg',
-            'rating' => 5
-        ],
-        [
-            'content' => __('The team at GreenTech transformed our online presence completely. Our website traffic increased by 300% within the first month.', 'greentech'),
-            'author' => 'Mike Chen',
-            'position' => __('Marketing Director, Tech Solutions', 'greentech'),
-            'avatar' => GREENTECH_ASSETS_URI . '/images/testimonial-2.jpg',
-            'rating' => 5
-        ],
-        [
-            'content' => __('Professional, reliable, and innovative. GreenTech has been our go-to partner for all digital marketing needs.', 'greentech'),
-            'author' => 'Emily Rodriguez',
-            'position' => __('Founder, Local Business Hub', 'greentech'),
-            'avatar' => GREENTECH_ASSETS_URI . '/images/testimonial-3.jpg',
-            'rating' => 5
-        ]
-    ];
+function greentech_social_links() {
+    if (has_nav_menu('social')) {
+        wp_nav_menu([
+            'theme_location' => 'social',
+            'container' => 'nav',
+            'container_class' => 'social-navigation',
+            'menu_class' => 'social-links',
+            'link_before' => '<span class="screen-reader-text">',
+            'link_after' => '</span>',
+            'depth' => 1,
+        ]);
+    }
 }
 
 /**
- * Get technology logos data
- * 
- * @return array Technology logos data
- */
-function greentech_get_technologies() {
-    return [
-        ['name' => 'WordPress', 'logo' => GREENTECH_ASSETS_URI . '/images/tech-wordpress.png'],
-        ['name' => 'Shopify', 'logo' => GREENTECH_ASSETS_URI . '/images/tech-shopify.png'],
-        ['name' => 'React', 'logo' => GREENTECH_ASSETS_URI . '/images/tech-react.png'],
-        ['name' => 'PHP', 'logo' => GREENTECH_ASSETS_URI . '/images/tech-php.png'],
-        ['name' => 'JavaScript', 'logo' => GREENTECH_ASSETS_URI . '/images/tech-js.png'],
-        ['name' => 'Google Ads', 'logo' => GREENTECH_ASSETS_URI . '/images/tech-google.png'],
-        ['name' => 'Facebook', 'logo' => GREENTECH_ASSETS_URI . '/images/tech-facebook.png'],
-        ['name' => 'AWS', 'logo' => GREENTECH_ASSETS_URI . '/images/tech-aws.png']
-    ];
-}
-
-/**
- * Get contact information
- * 
- * @return array Contact data
+ * Get contact information from customizer
  */
 function greentech_get_contact_info() {
     return [
-        'address' => get_theme_mod('contact_address', 'Office# 11, 1st Floor Soldier Arcade, Al-Markaz Road, Jhelum'),
-        'phone' => get_theme_mod('contact_phone', '0544-277588'),
-        'email' => get_theme_mod('contact_email', 'inquiry@greentech.guru'),
-        'website' => get_theme_mod('contact_website', 'www.greentech.guru')
+        'phone' => get_theme_mod('contact_phone', ''),
+        'email' => get_theme_mod('contact_email', ''),
+        'address' => get_theme_mod('contact_address', ''),
+        'website' => get_theme_mod('contact_website', ''),
     ];
+}
+
+/**
+ * Display contact information
+ */
+function greentech_contact_info($field = '') {
+    $contact = greentech_get_contact_info();
+    
+    if ($field && isset($contact[$field])) {
+        echo esc_html($contact[$field]);
+    } else {
+        return $contact;
+    }
 }
 
 /**
  * Custom excerpt length
- * 
- * @param int $length Excerpt length
- * @return int Modified excerpt length
  */
 function greentech_excerpt_length($length) {
-    return 30;
+    return get_theme_mod('blog_excerpt_length', 30);
 }
 add_filter('excerpt_length', __NAMESPACE__ . '\\greentech_excerpt_length');
 
 /**
- * Custom excerpt more
- * 
- * @param string $more Excerpt more string
- * @return string Modified excerpt more
+ * Custom excerpt more text
  */
 function greentech_excerpt_more($more) {
-    return '...';
+    return '&hellip; <a href="' . get_permalink() . '" class="read-more">' . 
+           __('Continue reading', 'greentech') . '</a>';
 }
 add_filter('excerpt_more', __NAMESPACE__ . '\\greentech_excerpt_more');
 
 /**
- * Pagination function
+ * Custom pagination
  */
 function greentech_pagination() {
-    global $wp_query;
-    
-    $big = 999999999;
-    
-    echo paginate_links([
-        'base' => str_replace($big, '%#%', esc_url(get_pagenum_link($big))),
-        'format' => '?paged=%#%',
-        'current' => max(1, get_query_var('paged')),
-        'total' => $wp_query->max_num_pages,
-        'prev_text' => __('← Previous', 'greentech'),
-        'next_text' => __('Next →', 'greentech'),
-        'type' => 'list',
-        'end_size' => 3,
-        'mid_size' => 3
-    ]);
-}
-
-/**
- * Social share buttons
- * 
- * @param int $post_id Post ID
- */
-function greentech_social_share($post_id = null) {
-    if (!$post_id) {
-        $post_id = get_the_ID();
-    }
-    
-    $post_url = get_permalink($post_id);
-    $post_title = get_the_title($post_id);
-    
-    $facebook_url = 'https://www.facebook.com/sharer/sharer.php?u=' . urlencode($post_url);
-    $twitter_url = 'https://twitter.com/intent/tweet?url=' . urlencode($post_url) . '&text=' . urlencode($post_title);
-    $linkedin_url = 'https://www.linkedin.com/sharing/share-offsite/?url=' . urlencode($post_url);
-    
-    echo '<div class="social-share">';
-    echo '<h4>' . __('Share this post:', 'greentech') . '</h4>';
-    echo '<div class="social-share-links">';
-    echo '<a href="' . $facebook_url . '" target="_blank" class="social-share-link facebook">Facebook</a>';
-    echo '<a href="' . $twitter_url . '" target="_blank" class="social-share-link twitter">Twitter</a>';
-    echo '<a href="' . $linkedin_url . '" target="_blank" class="social-share-link linkedin">LinkedIn</a>';
-    echo '</div>';
-    echo '</div>';
-}
-
-/**
- * Related posts function
- * 
- * @param int $post_id Post ID
- * @param int $posts_per_page Number of posts to show
- */
-function greentech_related_posts($post_id = null, $posts_per_page = 3) {
-    if (!$post_id) {
-        $post_id = get_the_ID();
-    }
-    
-    $categories = get_the_category($post_id);
-    if (empty($categories)) {
-        return;
-    }
-    
-    $category_ids = array_map(function($cat) {
-        return $cat->term_id;
-    }, $categories);
-    
-    $related_posts = get_posts([
-        'category__in' => $category_ids,
-        'post__not_in' => [$post_id],
-        'posts_per_page' => $posts_per_page,
-        'orderby' => 'rand'
+    $pagination = paginate_links([
+        'type' => 'array',
+        'prev_text' => '&laquo; ' . __('Previous', 'greentech'),
+        'next_text' => __('Next', 'greentech') . ' &raquo;',
     ]);
     
-    if (empty($related_posts)) {
-        return;
-    }
-    
-    echo '<div class="related-posts">';
-    echo '<h3>' . __('Related Posts', 'greentech') . '</h3>';
-    echo '<div class="related-posts-grid">';
-    
-    foreach ($related_posts as $post) {
-        setup_postdata($post);
-        echo '<article class="related-post card">';
-        if (has_post_thumbnail($post->ID)) {
-            echo '<div class="related-post-image">';
-            echo '<a href="' . get_permalink($post->ID) . '">';
-            echo get_the_post_thumbnail($post->ID, 'greentech-blog');
-            echo '</a>';
-            echo '</div>';
+    if ($pagination) {
+        echo '<nav class="pagination" role="navigation">';
+        echo '<ul class="pagination-list">';
+        foreach ($pagination as $page) {
+            echo '<li class="pagination-item">' . $page . '</li>';
         }
-        echo '<div class="related-post-content">';
-        echo '<h4><a href="' . get_permalink($post->ID) . '">' . get_the_title($post->ID) . '</a></h4>';
-        echo '<p>' . wp_trim_words(get_the_excerpt($post->ID), 15) . '</p>';
-        echo '<a href="' . get_permalink($post->ID) . '" class="btn btn-outline btn-sm">' . __('Read More', 'greentech') . '</a>';
-        echo '</div>';
-        echo '</article>';
+        echo '</ul>';
+        echo '</nav>';
     }
-    
-    echo '</div>';
-    echo '</div>';
-    
-    wp_reset_postdata();
 }
 
 /**
- * Schema markup for organization
+ * Schema.org markup for organization
  */
 function greentech_schema_organization() {
     $contact = greentech_get_contact_info();
+    $logo = wp_get_attachment_image_src(get_theme_mod('custom_logo'), 'full');
     
     $schema = [
         '@context' => 'https://schema.org',
         '@type' => 'Organization',
         'name' => get_bloginfo('name'),
-        'description' => get_bloginfo('description'),
         'url' => home_url(),
-        'logo' => get_theme_mod('custom_logo') ? wp_get_attachment_url(get_theme_mod('custom_logo')) : null,
-        'address' => [
-            '@type' => 'PostalAddress',
-            'streetAddress' => $contact['address'],
-            'addressLocality' => 'Jhelum',
-            'addressCountry' => 'PK'
-        ],
-        'contactPoint' => [
-            '@type' => 'ContactPoint',
-            'telephone' => $contact['phone'],
-            'contactType' => 'customer support',
-            'email' => $contact['email']
-        ],
-        'sameAs' => [
-            'https://www.facebook.com/greentech',
-            'https://www.twitter.com/greentech',
-            'https://www.linkedin.com/company/greentech'
-        ]
+        'description' => get_bloginfo('description'),
     ];
     
-    echo '<script type="application/ld+json">' . json_encode($schema, JSON_UNESCAPED_SLASHES) . '</script>';
+    if ($logo) {
+        $schema['logo'] = $logo[0];
+    }
+    
+    if ($contact['phone']) {
+        $schema['telephone'] = $contact['phone'];
+    }
+    
+    if ($contact['email']) {
+        $schema['email'] = $contact['email'];
+    }
+    
+    if ($contact['address']) {
+        $schema['address'] = $contact['address'];
+    }
+    
+    echo '<script type="application/ld+json">' . wp_json_encode($schema) . '</script>';
 }
 
 /**
- * Schema markup for articles
+ * Add schema markup to head
  */
-function greentech_schema_article() {
-    if (!is_single()) {
-        return;
+function greentech_add_schema() {
+    if (is_front_page()) {
+        greentech_schema_organization();
+    }
+}
+add_action('wp_head', __NAMESPACE__ . '\\greentech_add_schema');
+
+/**
+ * Disable WordPress emoji scripts
+ */
+function greentech_disable_emojis() {
+    remove_action('wp_head', 'print_emoji_detection_script', 7);
+    remove_action('admin_print_scripts', 'print_emoji_detection_script');
+    remove_action('wp_print_styles', 'print_emoji_styles');
+    remove_action('admin_print_styles', 'print_emoji_styles');
+    remove_filter('the_content_feed', 'wp_staticize_emoji');
+    remove_filter('comment_text_rss', 'wp_staticize_emoji');
+    remove_filter('wp_mail', 'wp_staticize_emoji_for_email');
+}
+add_action('init', __NAMESPACE__ . '\\greentech_disable_emojis');
+
+/**
+ * Remove WordPress version from head
+ */
+remove_action('wp_head', 'wp_generator');
+
+/**
+ * Add security headers
+ */
+function greentech_security_headers() {
+    if (!is_admin()) {
+        header('X-Content-Type-Options: nosniff');
+        header('X-Frame-Options: SAMEORIGIN');
+        header('X-XSS-Protection: 1; mode=block');
+        header('Referrer-Policy: strict-origin-when-cross-origin');
+    }
+}
+add_action('send_headers', __NAMESPACE__ . '\\greentech_security_headers');
+
+/**
+ * Optimize WordPress queries
+ */
+function greentech_optimize_queries($query) {
+    if (!is_admin() && $query->is_main_query()) {
+        // Limit post revisions
+        if (!defined('WP_POST_REVISIONS')) {
+            define('WP_POST_REVISIONS', 3);
+        }
+        
+        // Disable attachment pages
+        if ($query->is_attachment()) {
+            global $wp_query;
+            $wp_query->set_404();
+            status_header(404);
+        }
+    }
+}
+add_action('pre_get_posts', __NAMESPACE__ . '\\greentech_optimize_queries');
+
+/**
+ * Add custom CSS variables to head
+ */
+function greentech_css_variables() {
+    $primary_color = get_theme_mod('colors_primary', '#4CAF50');
+    $secondary_color = get_theme_mod('colors_secondary', '#1a1a1a');
+    $accent_color = get_theme_mod('colors_accent', '#66bb6a');
+    
+    $css = ':root {';
+    $css .= '--wp--preset--color--primary: ' . $primary_color . ';';
+    $css .= '--wp--preset--color--secondary: ' . $secondary_color . ';';
+    $css .= '--wp--preset--color--accent: ' . $accent_color . ';';
+    $css .= '--wp--preset--color--primary-hover: ' . $this->adjust_brightness($primary_color, -20) . ';';
+    $css .= '}';
+    
+    echo '<style id="greentech-css-variables">' . $css . '</style>';
+}
+add_action('wp_head', __NAMESPACE__ . '\\greentech_css_variables');
+
+/**
+ * Adjust color brightness
+ */
+function greentech_adjust_brightness($hex, $percent) {
+    $hex = ltrim($hex, '#');
+    
+    if (strlen($hex) == 3) {
+        $hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
     }
     
-    $schema = [
-        '@context' => 'https://schema.org',
-        '@type' => 'Article',
-        'headline' => get_the_title(),
-        'description' => get_the_excerpt(),
-        'author' => [
-            '@type' => 'Person',
-            'name' => get_the_author()
-        ],
-        'publisher' => [
-            '@type' => 'Organization',
-            'name' => get_bloginfo('name'),
-            'logo' => [
-                '@type' => 'ImageObject',
-                'url' => get_theme_mod('custom_logo') ? wp_get_attachment_url(get_theme_mod('custom_logo')) : null
-            ]
-        ],
-        'datePublished' => get_the_date('c'),
-        'dateModified' => get_the_modified_date('c'),
-        'mainEntityOfPage' => get_permalink()
-    ];
+    $hex = array_map('hexdec', str_split($hex, 2));
     
-    if (has_post_thumbnail()) {
-        $schema['image'] = get_the_post_thumbnail_url(null, 'full');
+    foreach ($hex as &$color) {
+        $adjustableLimit = $percent < 0 ? $color : 255 - $color;
+        $adjustAmount = ceil($adjustableLimit * $percent / 100);
+        $color = str_pad(dechex($color + $adjustAmount), 2, '0', STR_PAD_LEFT);
     }
     
-    echo '<script type="application/ld+json">' . json_encode($schema, JSON_UNESCAPED_SLASHES) . '</script>';
+    return '#' . implode($hex);
 }
 
-// Add schema markup to appropriate pages
-add_action('wp_head', __NAMESPACE__ . '\\greentech_schema_organization');
-add_action('wp_head', __NAMESPACE__ . '\\greentech_schema_article');
+/**
+ * Display post meta information
+ */
+function greentech_posted_on() {
+    $time_string = '<time class="entry-date published updated" datetime="%1$s">%2$s</time>';
+    if (get_the_time('U') !== get_the_modified_time('U')) {
+        $time_string = '<time class="entry-date published" datetime="%1$s">%2$s</time><time class="updated" datetime="%3$s">%4$s</time>';
+    }
+
+    $time_string = sprintf(
+        $time_string,
+        esc_attr(get_the_date(DATE_W3C)),
+        esc_html(get_the_date()),
+        esc_attr(get_the_modified_date(DATE_W3C)),
+        esc_html(get_the_modified_date())
+    );
+
+    $posted_on = sprintf(
+        /* translators: %s: post date. */
+        esc_html_x('Posted on %s', 'post date', 'greentech'),
+        '<a href="' . esc_url(get_permalink()) . '" rel="bookmark">' . $time_string . '</a>'
+    );
+
+    echo '<span class="posted-on">' . $posted_on . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+}
+
+/**
+ * Display post author information
+ */
+function greentech_posted_by() {
+    $byline = sprintf(
+        /* translators: %s: post author. */
+        esc_html_x('by %s', 'post author', 'greentech'),
+        '<span class="author vcard"><a class="url fn n" href="' . esc_url(get_author_posts_url(get_the_author_meta('ID'))) . '">' . esc_html(get_the_author()) . '</a></span>'
+    );
+
+    echo '<span class="byline"> ' . $byline . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+}
+
+/**
+ * Display entry footer with categories, tags, and edit link
+ */
+function greentech_entry_footer() {
+    // Hide category and tag text for pages.
+    if ('post' === get_post_type()) {
+        /* translators: used between list items, there is a space after the comma */
+        $categories_list = get_the_category_list(esc_html__(', ', 'greentech'));
+        if ($categories_list) {
+            /* translators: 1: list of categories. */
+            printf('<span class="cat-links">' . esc_html__('Posted in %1$s', 'greentech') . '</span>', $categories_list); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        }
+
+        /* translators: used between list items, there is a space after the comma */
+        $tags_list = get_the_tag_list('', esc_html_x(', ', 'list item separator', 'greentech'));
+        if ($tags_list) {
+            /* translators: 1: list of tags. */
+            printf('<span class="tags-links">' . esc_html__('Tagged %1$s', 'greentech') . '</span>', $tags_list); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        }
+    }
+
+    if (!is_single() && !post_password_required() && (comments_open() || get_comments_number())) {
+        echo '<span class="comments-link">';
+        comments_popup_link(
+            sprintf(
+                wp_kses(
+                    /* translators: %s: post title */
+                    __('Leave a Comment<span class="screen-reader-text"> on %s</span>', 'greentech'),
+                    [
+                        'span' => [
+                            'class' => [],
+                        ],
+                    ]
+                ),
+                wp_kses_post(get_the_title())
+            )
+        );
+        echo '</span>';
+    }
+
+    edit_post_link(
+        sprintf(
+            wp_kses(
+                /* translators: %s: Name of current post. Only visible to screen readers */
+                __('Edit <span class="screen-reader-text">"%s"</span>', 'greentech'),
+                [
+                    'span' => [
+                        'class' => [],
+                    ],
+                ]
+            ),
+            wp_kses_post(get_the_title())
+        ),
+        '<span class="edit-link">',
+        '</span>'
+    );
+}

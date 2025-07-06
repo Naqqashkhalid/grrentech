@@ -1,320 +1,407 @@
 # GreenTech WordPress Theme
 
-A modern, professional WordPress theme designed for web development agencies, SEO firms, hosting providers, and software houses. Inspired by contemporary B2B design with clean typography, generous white spacing, and modern green accents.
+A modern, professional WordPress theme built specifically for Gutenberg. Perfect for web development agencies, SEO firms, hosting providers, and software houses. Features a clean block-based design with extensive customization options and modern development practices.
 
-## Features
+## 🚀 Features
 
-### Design & Layout
-- **Modern B2B Design**: Clean, professional layout inspired by contemporary design trends
-- **Responsive Design**: Fully responsive and mobile-first approach
-- **Green Color Scheme**: Modern green (#4CAF50) accent colors with customizable options
+### Modern Block-Based Design
+- **Gutenberg-First**: Built specifically for the WordPress block editor
+- **Custom Block Styles**: 20+ custom block styles for enhanced design flexibility
+- **Block Patterns**: 8 pre-built patterns for quick page creation
+- **No Hardcoded Content**: All layouts created through Gutenberg blocks
+
+### Professional Design
+- **Clean & Modern**: Professional B2B design with generous white space
+- **Green Color Scheme**: Modern green (#4CAF50) accent colors with full customization
 - **Inter Typography**: Clean, modern Inter font family from Google Fonts
-- **Generous White Space**: Ample spacing for improved readability and visual hierarchy
+- **Responsive Design**: Mobile-first approach with perfect display on all devices
 
-### Core Functionality
-- **WordPress Best Practices**: Built with OOP PHP, namespacing, and modern WordPress standards
-- **Performance Optimized**: Fast loading times with optimized assets and lazy loading
-- **SEO Ready**: Semantic HTML5, structured data, and SEO-friendly markup
-- **Accessibility**: WCAG 2.1 AA compliant with proper accessibility features
-- **Translation Ready**: Full internationalization support with .pot file
+### Extensive Customization
+- **WordPress Customizer Integration**: Complete customization through native WordPress interface
+- **Color Options**: Primary, secondary, and accent color customization
+- **Typography Controls**: Font selection and scaling options
+- **Layout Options**: Container width, boxed layout, and header styles
+- **Contact Information**: Built-in contact details management
+- **Social Media**: Social links integration
 
-### Homepage Sections
-- **Hero Section**: Customizable title, subtitle, and call-to-action buttons
-- **Services Grid**: 4-column responsive services showcase
-- **Portfolio**: Filterable project gallery with category filtering
-- **Testimonials**: Auto-rotating testimonial carousel
-- **Technology Logos**: Partner/technology showcase grid
-- **Contact CTA**: Prominent contact information display
-- **Blog Feed**: Latest blog posts integration
+### Performance & SEO
+- **Optimized Performance**: Fast loading with optimized assets and lazy loading
+- **SEO-Friendly**: Clean HTML5 markup with structured data
+- **Accessibility Ready**: WCAG 2.1 AA compliance with proper ARIA labels
+- **Modern JavaScript**: ES6+ with performance optimizations
 
-### Customization Options
-- **WordPress Customizer**: Extensive customization options
-- **Color Controls**: Primary and secondary color customization
-- **Typography Options**: Font family selection
-- **Header Settings**: Logo upload, sticky header options
-- **Hero Content**: Customizable hero section content
-- **Contact Information**: Business details management
-- **Social Media**: Social network links
-- **Footer Settings**: Copyright and layout options
+### Developer-Friendly
+- **Object-Oriented PHP**: Clean OOP architecture with namespacing
+- **WordPress Coding Standards**: Follows all WordPress best practices
+- **Translation Ready**: Complete .pot file with 200+ translatable strings
+- **Extensible**: Hook-based architecture for easy customization
 
-### Technical Features
-- **Custom Post Types**: Portfolio and Services post types
-- **Custom Taxonomies**: Portfolio and Service categories
-- **Widget Areas**: Multiple widget-ready areas
-- **Menu Locations**: Primary, Footer, and Social menus
-- **Image Sizes**: Optimized image sizes for different sections
-- **Performance**: Optimized assets, lazy loading, and caching support
-- **Cross-browser**: Compatible with all modern browsers
+## 📋 Requirements
 
-## Installation
+- **WordPress**: 6.0 or higher
+- **PHP**: 8.0 or higher
+- **MySQL**: 5.6 or higher
+- **Modern Browser**: Support for ES6+ JavaScript
 
-### Requirements
-- WordPress 5.0 or higher
-- PHP 7.4 or higher
-- Modern web browser
+## 🔧 Installation
 
-### Quick Installation
-1. Download the theme files
-2. Upload to your WordPress `/wp-content/themes/` directory
-3. Activate the theme from WordPress Admin > Appearance > Themes
-4. Customize through Appearance > Customize
+### Method 1: Upload via WordPress Admin
+1. Download the theme ZIP file
+2. Go to **Appearance → Themes → Add New → Upload Theme**
+3. Choose the ZIP file and click **Install Now**
+4. Click **Activate** to enable the theme
 
-### Recommended Plugins
-- **Contact Form 7**: For contact forms
-- **Yoast SEO**: For enhanced SEO features
-- **WooCommerce**: For e-commerce functionality (theme supports WooCommerce)
-- **Elementor**: For advanced page building (theme compatible)
+### Method 2: FTP Upload
+1. Download and extract the theme files
+2. Upload the `greentech-theme` folder to `/wp-content/themes/`
+3. Go to **Appearance → Themes** and activate GreenTech
 
-## Setup Guide
+### Method 3: WordPress CLI
+```bash
+wp theme install greentech-theme.zip --activate
+```
 
-### 1. Initial Configuration
-After activating the theme:
+## ⚙️ Quick Setup
 
-1. **Set Homepage**: Go to Settings > Reading and set a static page as homepage
-2. **Configure Menus**: Create menus at Appearance > Menus
-3. **Upload Logo**: Upload your logo via Appearance > Customize > Site Identity
-4. **Set Colors**: Customize colors in Appearance > Customize > GreenTech Options > Colors
+### 1. Basic Configuration
+1. **Set Homepage**: Go to **Settings → Reading** and set a static page
+2. **Upload Logo**: Go to **Appearance → Customize → Site Identity**
+3. **Set Colors**: Go to **Appearance → Customize → Branding & Design → Colors**
 
-### 2. Content Setup
-1. **Create Pages**: Create essential pages (About, Services, Portfolio, Contact)
-2. **Add Content**: Use the homepage template for your main page
-3. **Portfolio Items**: Add portfolio projects using the Portfolio post type
-4. **Blog Posts**: Add blog content for the blog section
+### 2. Create Menus
+1. Go to **Appearance → Menus**
+2. Create menus for:
+   - **Primary Menu** (main navigation)
+   - **Footer Menu** (footer links)
+   - **Social Menu** (social media links)
 
-### 3. Customizer Options
-Navigate to **Appearance > Customize > GreenTech Options**:
+### 3. Add Contact Information
+1. Go to **Appearance → Customize → Contact Information**
+2. Add your business details:
+   - Phone number
+   - Email address
+   - Business address
+   - Website URL
 
-#### Colors
-- Primary Color (default: #4CAF50)
-- Secondary Color (default: #1a1a1a)
+### 4. Configure Social Media
+1. Go to **Appearance → Customize → Contact Information → Social Media**
+2. Add your social media URLs
 
-#### Typography
-- Headings Font
-- Body Font
+## 🎨 Customization
 
-#### Header Settings
-- Header Style (Transparent, Solid, Boxed)
-- Sticky Header toggle
+### Colors
+- **Primary Color**: Main brand color (default: #4CAF50)
+- **Secondary Color**: Text and accent color (default: #1a1a1a)
+- **Accent Color**: Highlight color (default: #66bb6a)
 
-#### Hero Section
-- Hero Title
-- Hero Subtitle
-- Primary Button Text & URL
-- Secondary Button Text & URL
+### Typography
+- **Heading Font**: Choose from Inter, Poppins, Roboto, Open Sans, Lato
+- **Body Font**: Same font options as headings
+- **Font Scale**: Adjust overall font sizing (0.8x to 1.2x)
 
-#### Contact Information
-- Phone Number
-- Email Address
-- Business Address
-- Website URL
+### Layout Options
+- **Container Width**: Adjust content width (1000px to 1400px)
+- **Boxed Layout**: Enable/disable boxed layout
+- **Header Style**: Transparent, solid, or boxed header
+- **Sticky Header**: Enable/disable sticky navigation
 
-#### Social Media
-- Facebook URL
-- Twitter URL
-- Instagram URL
-- LinkedIn URL
-- YouTube URL
-- GitHub URL
+### Blog Settings
+- **Layout**: Grid, list, or masonry layout
+- **Columns**: 1-4 columns for grid layout
+- **Excerpts**: Show/hide post excerpts
+- **Excerpt Length**: Customize excerpt word count
+- **Read More Text**: Customize read more button text
 
-#### Footer Settings
-- Copyright Text
-- Footer Layout (1-4 columns)
+## 🧩 Block Patterns
 
-#### Blog Settings
-- Blog Layout
-- Show Excerpt toggle
-- Read More Text
+GreenTech includes 8 professionally designed block patterns:
 
-## File Structure
+1. **Hero Section**: Full-width hero with title, subtitle, and CTA buttons
+2. **Services Grid**: 4-column service showcase with icons
+3. **Testimonials**: Customer testimonials with quotes and author info
+4. **Call to Action**: Prominent CTA section with gradient background
+5. **About Section**: Image and content side-by-side layout
+6. **Portfolio Grid**: Responsive project showcase grid
+7. **Team Section**: Team member profiles with photos
+8. **FAQ Section**: Frequently asked questions layout
 
+### Using Block Patterns
+1. Create a new page or edit existing content
+2. Click the **+** button to add a block
+3. Go to the **Patterns** tab
+4. Browse **GreenTech** categories
+5. Click any pattern to insert it
+
+## 🎭 Block Styles
+
+### Available Block Styles
+- **Hero Section**: For Group/Cover blocks
+- **Card**: Styled containers with shadows
+- **Service Grid**: Service showcase columns
+- **Testimonial**: Quote styling for testimonials
+- **Call to Action**: Gradient CTA sections
+- **Outline Primary**: Outlined buttons
+- **Ghost Button**: Transparent buttons
+- **Rounded Button**: Circular button style
+- **Rounded Image**: Circular image style
+- **Shadow Image**: Images with drop shadows
+- **Gradient Text**: Gradient text effects
+- **Underlined Heading**: Headings with underlines
+- **Checkmark List**: Lists with checkmark icons
+- **No Bullets**: Clean lists without bullets
+
+### Applying Block Styles
+1. Select any block in the editor
+2. Look for **Styles** in the block toolbar
+3. Choose from available style options
+4. Preview changes in real-time
+
+## 📱 Responsive Design
+
+GreenTech is built with a mobile-first approach:
+
+- **Mobile**: Optimized for phones (320px+)
+- **Tablet**: Perfect display on tablets (768px+)
+- **Desktop**: Full layout on desktop (1024px+)
+- **Large Screens**: Enhanced for large displays (1440px+)
+
+## 🔍 SEO Features
+
+### Built-in SEO Optimization
+- **Clean HTML5**: Semantic markup for better search engine understanding
+- **Structured Data**: Schema.org markup for organizations
+- **Meta Tags**: Proper meta tag implementation
+- **Fast Loading**: Optimized performance for better rankings
+- **Mobile-Friendly**: Responsive design for mobile search rankings
+
+### Recommended SEO Plugins
+- **Yoast SEO**: Complete SEO optimization
+- **RankMath**: Alternative SEO solution
+- **All in One SEO**: Comprehensive SEO toolkit
+
+## ⚡ Performance
+
+### Optimization Features
+- **Asset Optimization**: Minified CSS and JavaScript
+- **Lazy Loading**: Images load only when needed
+- **Font Display Swap**: Faster font loading
+- **Preload Critical Resources**: Improved loading times
+- **Clean Code**: Efficient PHP and JavaScript
+
+### Performance Tips
+1. **Use Caching**: Install a caching plugin like WP Rocket
+2. **Optimize Images**: Use WebP format when possible
+3. **CDN**: Consider using a Content Delivery Network
+4. **Database Cleanup**: Regular database optimization
+
+## 🌐 Browser Support
+
+### Supported Browsers
+- **Chrome**: 80+
+- **Firefox**: 75+
+- **Safari**: 13+
+- **Edge**: 80+
+- **Opera**: 67+
+
+### Fallbacks
+- Graceful degradation for older browsers
+- Progressive enhancement for modern features
+- Polyfills for essential functionality
+
+## 🔧 Development
+
+### File Structure
 ```
 greentech-theme/
 ├── assets/
-│   ├── css/
-│   ├── js/
-│   │   └── main.js
-│   └── images/
-├── inc/
-│   ├── class-admin.php
-│   ├── class-assets.php
+│   ├── css/           # Stylesheets
+│   ├── js/            # JavaScript files
+│   └── images/        # Theme images
+├── inc/               # PHP classes
+│   ├── class-theme-setup.php
 │   ├── class-customizer.php
-│   ├── class-navigation.php
-│   ├── class-performance.php
-│   ├── class-template-functions.php
-│   └── class-theme-setup.php
-├── languages/
-│   └── greentech.pot
-├── template-parts/
-├── 404.php
-├── archive.php
-├── comments.php
-├── footer.php
-├── functions.php
-├── header.php
-├── index.php
-├── page.php
-├── page-services.php
-├── search.php
-├── searchform.php
-├── sidebar.php
-├── single.php
-├── style.css
-└── README.md
+│   ├── class-assets.php
+│   ├── class-block-styles.php
+│   ├── class-block-patterns.php
+│   └── class-admin.php
+├── languages/         # Translation files
+├── patterns/          # Block pattern files
+├── styles/            # Block style definitions
+├── template-parts/    # Template partials
+├── functions.php      # Main functions file
+├── style.css          # Main stylesheet
+└── *.php             # Template files
 ```
-
-## Customization
-
-### Adding Custom CSS
-Add custom styles via:
-1. **Customizer**: Appearance > Customize > Additional CSS
-2. **Child Theme**: Create a child theme for extensive customizations
-3. **Custom CSS File**: Add to `/assets/css/custom.css`
-
-### Child Theme
-Create a child theme for custom modifications:
-
-```php
-// In child theme's functions.php
-<?php
-function greentech_child_enqueue_styles() {
-    wp_enqueue_style('greentech-parent-style', get_template_directory_uri() . '/style.css');
-    wp_enqueue_style('greentech-child-style', get_stylesheet_directory_uri() . '/style.css', ['greentech-parent-style']);
-}
-add_action('wp_enqueue_scripts', 'greentech_child_enqueue_styles');
-```
-
-### Custom Templates
-- Copy template files to child theme for customization
-- Use WordPress template hierarchy
-- Leverage template parts for reusable components
 
 ### Hooks & Filters
-The theme provides various hooks for customization:
 
+#### Action Hooks
 ```php
-// Modify services data
-add_filter('greentech_services_data', 'custom_services_data');
+// After theme setup
+do_action('greentech_after_setup_theme');
 
-// Modify portfolio items
-add_filter('greentech_portfolio_data', 'custom_portfolio_data');
+// Before header
+do_action('greentech_before_header');
 
-// Add custom CSS variables
-add_filter('greentech_css_variables', 'custom_css_variables');
+// After header
+do_action('greentech_after_header');
+
+// Before footer
+do_action('greentech_before_footer');
+
+// After footer
+do_action('greentech_after_footer');
 ```
 
-## Performance
+#### Filter Hooks
+```php
+// Modify excerpt length
+apply_filters('greentech_excerpt_length', 30);
 
-### Optimization Features
-- **Lazy Loading**: Automatic image lazy loading
-- **Asset Optimization**: Minified CSS and JavaScript
-- **Font Loading**: Optimized Google Fonts loading
-- **Cache Friendly**: Compatible with caching plugins
-- **Image Optimization**: Multiple image sizes for different contexts
+// Modify read more text
+apply_filters('greentech_read_more_text', 'Read More');
 
-### Performance Tips
-1. **Use Caching**: Install a caching plugin like WP Super Cache
-2. **Optimize Images**: Use WebP format and appropriate sizes
-3. **CDN**: Consider using a Content Delivery Network
-4. **Minimize Plugins**: Only use necessary plugins
+// Modify container width
+apply_filters('greentech_container_width', 1200);
+```
 
-## Browser Support
+### Child Theme Support
+Create a child theme for customizations:
 
-### Supported Browsers
-- Chrome (latest 3 versions)
-- Firefox (latest 3 versions)
-- Safari (latest 3 versions)
-- Edge (latest 3 versions)
+```php
+// style.css
+/*
+Theme Name: GreenTech Child
+Template: greentech-theme
+*/
 
-### Progressive Enhancement
-- Modern browsers get full features
-- Older browsers receive core functionality
-- Graceful degradation for unsupported features
+@import url("../greentech-theme/style.css");
 
-## Troubleshooting
+/* Your custom styles here */
+```
+
+## 🌍 Translation
+
+### Available Languages
+- English (default)
+- Translation ready for all languages
+
+### Creating Translations
+1. Use the provided `greentech.pot` file
+2. Create `.po` files for your language
+3. Compile to `.mo` files
+4. Place in `/languages/` directory
+
+### Translation Tools
+- **Poedit**: Popular translation editor
+- **Loco Translate**: WordPress plugin for translations
+- **WPML**: Multilingual website solution
+
+## 🔒 Security
+
+### Security Features
+- **Nonce Verification**: All AJAX requests protected
+- **Data Sanitization**: All user inputs sanitized
+- **Escape Output**: All output properly escaped
+- **Security Headers**: Added security headers
+- **File Access Protection**: Direct file access prevented
+
+### Security Best Practices
+1. Keep WordPress and plugins updated
+2. Use strong passwords
+3. Install security plugins (Wordfence, Sucuri)
+4. Regular backups
+5. Monitor for malware
+
+## 🐛 Troubleshooting
 
 ### Common Issues
 
-#### Menu Not Showing
-1. Go to Appearance > Menus
-2. Create a menu and assign to "Primary Menu" location
-
-#### Customizer Options Missing
-1. Ensure theme is properly activated
+#### Theme Not Displaying Correctly
+1. Clear all caches
 2. Check for plugin conflicts
-3. Clear cache if using caching plugins
+3. Verify WordPress version compatibility
+4. Review browser console for errors
 
-#### Images Not Loading
-1. Check image file paths
-2. Verify proper image uploads
-3. Check file permissions
+#### Customizer Options Not Saving
+1. Check file permissions
+2. Increase PHP memory limit
+3. Disable conflicting plugins
+4. Contact hosting provider
+
+#### Block Patterns Not Showing
+1. Ensure WordPress 6.0+
+2. Clear browser cache
+3. Check for plugin conflicts
+4. Verify theme activation
 
 #### Performance Issues
-1. Enable caching
+1. Install caching plugin
 2. Optimize images
-3. Minimize active plugins
-4. Use a CDN
+3. Check hosting resources
+4. Review installed plugins
 
 ### Getting Help
-1. Check WordPress codex for general WordPress issues
-2. Search theme documentation
-3. Check browser console for JavaScript errors
-4. Test with default WordPress themes to isolate issues
+- **Documentation**: Check this README file
+- **WordPress Forums**: Community support
+- **Theme Support**: Contact theme developers
+- **Professional Help**: Hire WordPress developer
 
-## Changelog
+## 📞 Support
 
-### Version 1.0.0
-- Initial release
-- Modern B2B design implementation
-- Full WordPress Customizer integration
+### Theme Support Includes
+- Installation assistance
+- Basic customization help
+- Bug fixes and updates
+- Documentation updates
+
+### What's Not Included
+- Custom development
+- Third-party plugin support
+- Server configuration
+- Content creation
+
+### Contact Information
+- **Email**: inquiry@greentech.guru
+- **Website**: www.greentech.guru
+- **Phone**: 0544-277588
+- **Address**: Office# 11, 1st Floor Soldier Arcade, Al-Markaz Road, Jhelum
+
+## 📄 License
+
+GreenTech WordPress Theme is licensed under the GPL v2 or later.
+
+This theme is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version.
+
+## 🎯 Credits
+
+### Resources Used
+- **Google Fonts**: Inter and Poppins font families
+- **WordPress**: Core functionality and block editor
+- **Font Awesome**: Icon inspiration
+- **Normalize.css**: CSS reset foundation
+
+### Special Thanks
+- WordPress community for continued development
+- Block editor team for Gutenberg
+- All beta testers and early adopters
+
+## 📈 Changelog
+
+### Version 1.0.0 (Initial Release)
+- Complete Gutenberg-based theme
+- 20+ custom block styles
+- 8 professional block patterns
+- Extensive customizer integration
+- Modern OOP PHP architecture
+- Full translation support
 - Performance optimizations
-- SEO and accessibility features
-- Mobile-responsive design
-- Portfolio and Services post types
-- Testimonial carousel
-- Technology showcase
-- Contact information integration
-
-## Credits
-
-### Technologies Used
-- **WordPress**: Content Management System
-- **Inter Font**: Typography by Google Fonts
-- **CSS Grid & Flexbox**: Modern layout techniques
-- **Intersection Observer**: Performance-optimized animations
-- **PHP 7.4+**: Modern PHP features
-
-### Inspiration
-- Design inspired by modern B2B websites
-- User experience best practices
-- WordPress theme development standards
-- Performance optimization techniques
-
-## License
-
-This theme is licensed under the GPL v2 or later.
-
-```
-Copyright (C) 2024 GreenTech
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-```
-
-## Support
-
-For support and updates:
-- Website: www.greentech.guru
-- Email: inquiry@greentech.guru
-- Phone: 0544-277588
-- Address: Office# 11, 1st Floor Soldier Arcade, Al-Markaz Road, Jhelum
+- Accessibility compliance
+- SEO-friendly structure
+- Professional documentation
 
 ---
 
-**Built with ❤️ by GreenTech Development Team**
+**Made with ❤️ for the WordPress community**
+
+For more information, visit [www.greentech.guru](https://www.greentech.guru)

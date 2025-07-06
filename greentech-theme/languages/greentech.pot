@@ -16,945 +16,666 @@ msgstr ""
 "X-Generator: GreenTech Theme\n"
 "X-Domain: greentech\n"
 
-#: searchform.php:9
-msgid "Search for:"
+#: header.php:30
+msgid "Skip to content"
 msgstr ""
 
-#: searchform.php:13
-msgctxt "placeholder"
-msgid "Search..."
+#: header.php:67
+msgid "Menu"
 msgstr ""
 
-#: searchform.php:18
-msgid "Search"
+#: header.php:60
+msgid "Primary Menu"
 msgstr ""
 
-#: search.php:17
-msgid "Search Results for: %s"
-msgstr ""
-
-#: search.php:42
-msgid "by"
-msgstr ""
-
-#: search.php:45
-msgid "in"
-msgstr ""
-
-#: search.php:57
-msgid "Read More"
-msgstr ""
-
-#: search.php:69
-msgid "Nothing found"
-msgstr ""
-
-#: search.php:72
-msgid "Sorry, but nothing matched your search terms. Please try again with different keywords."
-msgstr ""
-
-#: inc/class-navigation.php:92
-msgid "Home"
-msgstr ""
-
-#: inc/class-navigation.php:93
-msgid "Services"
-msgstr ""
-
-#: inc/class-navigation.php:94
-msgid "Portfolio"
-msgstr ""
-
-#: inc/class-navigation.php:95
-msgid "About"
-msgstr ""
-
-#: inc/class-navigation.php:96
-msgid "Contact"
-msgstr ""
-
-#: inc/class-template-functions.php:109
-msgid "Blog"
-msgstr ""
-
-#: inc/class-template-functions.php:114
-msgid "Search Results for: %s"
-msgstr ""
-
-#: inc/class-template-functions.php:116
-msgid "Page Not Found"
-msgstr ""
-
-#: inc/class-template-functions.php:133
-msgid "Home"
-msgstr ""
-
-#: inc/class-template-functions.php:136
-msgid "Breadcrumb Navigation"
-msgstr ""
-
-#: inc/class-template-functions.php:167
-msgid "Search Results for: %s"
-msgstr ""
-
-#: inc/class-template-functions.php:169
-msgid "404 - Page Not Found"
-msgstr ""
-
-#: inc/class-template-functions.php:204
-msgid "%d min read"
-msgid_plural "%d min read"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/class-template-functions.php:250
-msgid "Leave a comment"
-msgstr ""
-
-#: inc/class-template-functions.php:250
-msgid "1 Comment"
-msgstr ""
-
-#: inc/class-template-functions.php:250
-msgid "% Comments"
-msgstr ""
-
-#: inc/class-template-functions.php:307
-msgid "Ready to Start Your Project?"
-msgstr ""
-
-#: inc/class-template-functions.php:308
-msgid "Contact us today to discuss your web development, hosting, or digital marketing needs."
-msgstr ""
-
-#: inc/class-template-functions.php:309
+#: header.php:85
 msgid "Get Started"
 msgstr ""
 
-#: inc/class-template-functions.php:335
-msgid "Address"
+#: functions.php:150
+msgid "Primary Menu"
 msgstr ""
 
-#: inc/class-template-functions.php:345
-msgid "Phone"
+#: functions.php:151
+msgid "Footer Menu"
 msgstr ""
 
-#: inc/class-template-functions.php:355
-msgid "Email"
+#: functions.php:152
+msgid "Social Links Menu"
 msgstr ""
 
-#: inc/class-template-functions.php:365
-msgid "Website"
-msgstr ""
-
-#: inc/class-admin.php:62
-msgid "GreenTech Options"
-msgstr ""
-
-#: inc/class-admin.php:63
-msgid "Theme Options"
-msgstr ""
-
-#: inc/class-admin.php:76
-msgid "GreenTech Theme Options"
-msgstr ""
-
-#: inc/class-admin.php:80
-msgid "Quick Setup"
-msgstr ""
-
-#: inc/class-admin.php:81
-msgid "Get your site ready in minutes with our theme setup guide."
-msgstr ""
-
-#: inc/class-admin.php:83
-msgid "Customize Your Site"
-msgstr ""
-
-#: inc/class-admin.php:88
-msgid "Documentation"
-msgstr ""
-
-#: inc/class-admin.php:89
-msgid "Learn how to use all the features of your GreenTech theme."
-msgstr ""
-
-#: inc/class-admin.php:91
-msgid "View Documentation"
-msgstr ""
-
-#: inc/class-admin.php:96
-msgid "Support"
-msgstr ""
-
-#: inc/class-admin.php:97
-msgid "Need help? Our support team is ready to assist you."
-msgstr ""
-
-#: inc/class-admin.php:99
-msgid "Get Support"
-msgstr ""
-
-#: inc/class-admin.php:105
-msgid "System Information"
-msgstr ""
-
-#: inc/class-admin.php:109
-msgid "Theme Version"
-msgstr ""
-
-#: inc/class-admin.php:113
-msgid "WordPress Version"
-msgstr ""
-
-#: inc/class-admin.php:117
-msgid "PHP Version"
-msgstr ""
-
-#: inc/class-admin.php:121
-msgid "Active Plugins"
-msgstr ""
-
-#: inc/class-admin.php:172
-msgid "Thank you for using <strong>GreenTech</strong> theme. <a href=\"%s\" target=\"_blank\">Rate us</a> ★★★★★"
-msgstr ""
-
-#: functions.php:198
-msgid "Portfolio"
-msgstr ""
-
-#: functions.php:199
-msgid "Portfolio Item"
-msgstr ""
-
-#: functions.php:200
-msgid "Add New"
-msgstr ""
-
-#: functions.php:201
-msgid "Add New Portfolio Item"
-msgstr ""
-
-#: functions.php:202
-msgid "Edit Portfolio Item"
-msgstr ""
-
-#: functions.php:203
-msgid "New Portfolio Item"
-msgstr ""
-
-#: functions.php:204
-msgid "View Portfolio Item"
-msgstr ""
-
-#: functions.php:205
-msgid "Search Portfolio"
-msgstr ""
-
-#: functions.php:206
-msgid "No portfolio items found"
-msgstr ""
-
-#: functions.php:207
-msgid "No portfolio items found in trash"
-msgstr ""
-
-#: functions.php:227
-msgid "Services"
-msgstr ""
-
-#: functions.php:228
-msgid "Service"
-msgstr ""
-
-#: functions.php:229
-msgid "Add New"
-msgstr ""
-
-#: functions.php:230
-msgid "Add New Service"
-msgstr ""
-
-#: functions.php:231
-msgid "Edit Service"
-msgstr ""
-
-#: functions.php:232
-msgid "New Service"
-msgstr ""
-
-#: functions.php:233
-msgid "View Service"
-msgstr ""
-
-#: functions.php:234
-msgid "Search Services"
-msgstr ""
-
-#: functions.php:235
-msgid "No services found"
-msgstr ""
-
-#: functions.php:236
-msgid "No services found in trash"
-msgstr ""
-
-#: functions.php:262
-msgid "Portfolio Categories"
-msgstr ""
-
-#: functions.php:263
-msgid "Portfolio Category"
-msgstr ""
-
-#: functions.php:264
-msgid "Search Portfolio Categories"
-msgstr ""
-
-#: functions.php:265
-msgid "All Portfolio Categories"
-msgstr ""
-
-#: functions.php:266
-msgid "Parent Portfolio Category"
-msgstr ""
-
-#: functions.php:267
-msgid "Parent Portfolio Category:"
-msgstr ""
-
-#: functions.php:268
-msgid "Edit Portfolio Category"
-msgstr ""
-
-#: functions.php:269
-msgid "Update Portfolio Category"
-msgstr ""
-
-#: functions.php:270
-msgid "Add New Portfolio Category"
-msgstr ""
-
-#: functions.php:271
-msgid "New Portfolio Category Name"
-msgstr ""
-
-#: functions.php:272
-msgid "Categories"
-msgstr ""
-
-#: functions.php:285
-msgid "Service Categories"
-msgstr ""
-
-#: functions.php:286
-msgid "Service Category"
-msgstr ""
-
-#: functions.php:287
-msgid "Search Service Categories"
-msgstr ""
-
-#: functions.php:288
-msgid "All Service Categories"
-msgstr ""
-
-#: functions.php:289
-msgid "Parent Service Category"
-msgstr ""
-
-#: functions.php:290
-msgid "Parent Service Category:"
-msgstr ""
-
-#: functions.php:291
-msgid "Edit Service Category"
-msgstr ""
-
-#: functions.php:292
-msgid "Update Service Category"
-msgstr ""
-
-#: functions.php:293
-msgid "Add New Service Category"
-msgstr ""
-
-#: functions.php:294
-msgid "New Service Category Name"
-msgstr ""
-
-#: functions.php:295
-msgid "Categories"
-msgstr ""
-
-#: functions.php:336
-msgid "Web & App Development"
-msgstr ""
-
-#: functions.php:337
-msgid "Custom web applications, WordPress sites, mobile apps, ERP systems, and hosting solutions."
-msgstr ""
-
-#: functions.php:340
-msgid "Web Development"
-msgstr ""
-
-#: functions.php:341
-msgid "WordPress Development"
-msgstr ""
-
-#: functions.php:342
-msgid "Mobile App Development"
-msgstr ""
-
-#: functions.php:343
-msgid "ERP Systems"
-msgstr ""
-
-#: functions.php:344
-msgid "Hosting & Cloud Service"
-msgstr ""
-
-#: functions.php:345
-msgid "Plugin & App Development"
-msgstr ""
-
-#: functions.php:350
-msgid "E-Commerce Development"
-msgstr ""
-
-#: functions.php:351
-msgid "Complete e-commerce solutions on major platforms with payment integration and optimization."
-msgstr ""
-
-#: functions.php:354
-msgid "Shopify Development"
-msgstr ""
-
-#: functions.php:355
-msgid "Shopify Plus"
-msgstr ""
-
-#: functions.php:356
-msgid "Magento Development"
-msgstr ""
-
-#: functions.php:357
-msgid "BigCommerce"
-msgstr ""
-
-#: functions.php:358
-msgid "WooCommerce"
-msgstr ""
-
-#: functions.php:363
-msgid "Graphic Designing"
-msgstr ""
-
-#: functions.php:364
-msgid "Professional design services for branding, print, digital, and user experience."
-msgstr ""
-
-#: functions.php:367
-msgid "Logo & Branding"
-msgstr ""
-
-#: functions.php:368
-msgid "Print Design"
-msgstr ""
-
-#: functions.php:369
-msgid "Product & Merchandise"
-msgstr ""
-
-#: functions.php:370
-msgid "Banners & Advertisement"
-msgstr ""
-
-#: functions.php:371
-msgid "UI/UX Design"
-msgstr ""
-
-#: functions.php:376
-msgid "Digital Marketing"
-msgstr ""
-
-#: functions.php:377
-msgid "Comprehensive digital marketing strategies to grow your online presence and conversions."
-msgstr ""
-
-#: functions.php:380
-msgid "Performance Marketing"
-msgstr ""
-
-#: functions.php:381
-msgid "TikTok Marketing"
-msgstr ""
-
-#: functions.php:382
-msgid "SEO Services"
-msgstr ""
-
-#: functions.php:383
-msgid "Influencer Marketing"
-msgstr ""
-
-#: functions.php:384
-msgid "Social Media Marketing"
-msgstr ""
-
-#: functions.php:385
-msgid "Email Marketing"
-msgstr ""
-
-#: functions.php:386
-msgid "Conversion Rate Optimization"
-msgstr ""
-
-#: functions.php:427
-msgid "E-Commerce Platform"
-msgstr ""
-
-#: functions.php:428
-msgid "Modern Shopify store with custom features and enhanced user experience."
-msgstr ""
-
-#: functions.php:435
-msgid "Corporate Website"
-msgstr ""
-
-#: functions.php:436
-msgid "Professional WordPress site for law firm with custom functionality."
-msgstr ""
-
-#: functions.php:443
-msgid "Mobile App"
-msgstr ""
-
-#: functions.php:444
-msgid "Cross-platform mobile app for food delivery service."
-msgstr ""
-
-#: functions.php:451
-msgid "Brand Identity"
-msgstr ""
-
-#: functions.php:452
-msgid "Complete branding package for tech startup including logo and guidelines."
-msgstr ""
-
-#: functions.php:459
-msgid "SEO Campaign"
-msgstr ""
-
-#: functions.php:460
-msgid "Comprehensive SEO strategy that increased organic traffic by 300%."
-msgstr ""
-
-#: functions.php:467
-msgid "SaaS Dashboard"
-msgstr ""
-
-#: functions.php:468
-msgid "Modern dashboard design for project management software."
-msgstr ""
-
-#: functions.php:479
-msgid "GreenTech delivered an outstanding e-commerce platform that exceeded our expectations. Their attention to detail and technical expertise is remarkable."
-msgstr ""
-
-#: functions.php:482
-msgid "CEO, Fashion Forward"
-msgstr ""
-
-#: functions.php:487
-msgid "The team at GreenTech transformed our online presence completely. Our website traffic increased by 300% within the first month."
-msgstr ""
-
-#: functions.php:490
-msgid "Marketing Director, Tech Solutions"
-msgstr ""
-
-#: functions.php:495
-msgid "Professional, reliable, and innovative. GreenTech has been our go-to partner for all digital marketing needs."
-msgstr ""
-
-#: functions.php:498
-msgid "Founder, StartupHub"
-msgstr ""
-
-#: functions.php:503
-msgid "The WordPress development services were exceptional. Our site is now faster, more secure, and converts better than ever."
-msgstr ""
-
-#: functions.php:506
-msgid "CTO, Enterprise Solutions"
-msgstr ""
-
-#: functions.php:511
-msgid "Outstanding customer service and technical support. They really understand our business needs and deliver accordingly."
-msgstr ""
-
-#: functions.php:514
-msgid "Operations Manager, Global Corp"
-msgstr ""
-
-#: functions.php:519
-msgid "Working with GreenTech has been a game-changer for our online business. Highly recommended for any digital project."
-msgstr ""
-
-#: functions.php:522
-msgid "E-Commerce Director, Fashion Store"
-msgstr ""
-
-#: functions.php:557
-msgid "Office# 11, 1st Floor Soldier Arcade, Al-Markaz Road, Jhelum"
-msgstr ""
-
-#: functions.php:558
-msgid "inquiry@greentech.guru"
-msgstr ""
-
-#: functions.php:559
-msgid "0544-277588"
-msgstr ""
-
-#: functions.php:560
-msgid "www.greentech.guru"
-msgstr ""
-
-#: functions.php:571
+#: functions.php:394
 msgid "Continue reading"
 msgstr ""
 
-#: functions.php:580
-msgid "Pages:"
+#: functions.php:415
+msgid "Previous"
 msgstr ""
 
-#: functions.php:628
-msgid "Related Posts"
+#: functions.php:416
+msgid "Next"
 msgstr ""
 
-#: functions.php:694
-msgid "GreenTech - Professional web development, hosting, and digital marketing services in Jhelum, Pakistan. We specialize in WordPress development, e-commerce solutions, and SEO services."
+#: inc/class-theme-setup.php:105
+msgid "Primary"
 msgstr ""
 
-#: functions.php:697
-msgid "web development, WordPress, e-commerce, SEO, digital marketing, hosting, Pakistan, Jhelum"
+#: inc/class-theme-setup.php:110
+msgid "Secondary"
 msgstr ""
 
-#: index.php:20
-msgid "Professional Web Development & Digital Marketing Services"
+#: inc/class-theme-setup.php:115
+msgid "Accent"
 msgstr ""
 
-#: index.php:21
-msgid "Transform your business with our comprehensive web development, hosting, and digital marketing solutions. Based in Jhelum, serving clients worldwide."
+#: inc/class-theme-setup.php:120
+msgid "Background"
 msgstr ""
 
-#: index.php:24
-msgid "Get Started Today"
+#: inc/class-theme-setup.php:125
+msgid "Foreground"
 msgstr ""
 
-#: index.php:25
-msgid "View Our Work"
+#: inc/class-theme-setup.php:130
+msgid "Tertiary"
 msgstr ""
 
-#: index.php:34
-msgid "Our Services"
+#: inc/class-theme-setup.php:138
+msgid "Small"
 msgstr ""
 
-#: index.php:35
-msgid "Comprehensive solutions for your digital needs"
+#: inc/class-theme-setup.php:144
+msgid "Normal"
 msgstr ""
 
-#: index.php:60
-msgid "Learn More"
+#: inc/class-theme-setup.php:150
+msgid "Medium"
 msgstr ""
 
-#: index.php:68
-msgid "Our Work"
+#: inc/class-theme-setup.php:156
+msgid "Large"
 msgstr ""
 
-#: index.php:69
-msgid "Check out our latest projects and success stories"
+#: inc/class-theme-setup.php:162
+msgid "Extra Large"
 msgstr ""
 
-#: index.php:75
-msgid "All"
+#: inc/class-theme-setup.php:168
+msgid "Huge"
 msgstr ""
 
-#: index.php:76
-msgid "Web Development"
+#: inc/class-theme-setup.php:185
+msgid "Primary Sidebar"
 msgstr ""
 
-#: index.php:77
-msgid "E-Commerce"
+#: inc/class-theme-setup.php:187
+msgid "Add widgets here to appear in your sidebar."
 msgstr ""
 
-#: index.php:78
-msgid "Design"
+#: inc/class-theme-setup.php:196
+msgid "Footer Widget Area %d"
 msgstr ""
 
-#: index.php:79
-msgid "Marketing"
+#: inc/class-theme-setup.php:198
+msgid "Add widgets here to appear in footer column %d."
 msgstr ""
 
-#: index.php:80
-msgid "Mobile App"
+#: inc/class-theme-setup.php:207
+msgid "Header Widget Area"
 msgstr ""
 
-#: index.php:104
-msgid "What Our Clients Say"
+#: inc/class-theme-setup.php:209
+msgid "Add widgets here to appear in the header area."
 msgstr ""
 
-#: index.php:105
-msgid "Don't just take our word for it - see what our clients have to say"
+#: inc/class-customizer.php:60
+msgid "Branding & Design"
 msgstr ""
 
-#: index.php:128
-msgid "Technologies We Use"
+#: inc/class-customizer.php:61
+msgid "Customize your site branding, colors, and typography."
 msgstr ""
 
-#: index.php:129
-msgid "We work with the latest technologies to deliver cutting-edge solutions"
+#: inc/class-customizer.php:67
+msgid "Colors"
 msgstr ""
 
-#: index.php:151
-msgid "Ready to Get Started?"
+#: inc/class-customizer.php:78
+msgid "Primary Color"
 msgstr ""
 
-#: index.php:152
-msgid "Contact us today to discuss your project requirements and get a free consultation."
+#: inc/class-customizer.php:88
+msgid "Secondary Color"
 msgstr ""
 
-#: index.php:153
-msgid "Contact Us"
+#: inc/class-customizer.php:98
+msgid "Accent Color"
 msgstr ""
 
-#: index.php:160
-msgid "Latest From Our Blog"
+#: inc/class-customizer.php:107
+msgid "Typography"
 msgstr ""
 
-#: index.php:161
-msgid "Stay updated with the latest trends and insights in web development and digital marketing"
+#: inc/class-customizer.php:117
+msgid "Heading Font"
 msgstr ""
 
-#: index.php:169
-msgid "No blog posts found."
+#: inc/class-customizer.php:133
+msgid "Body Font"
 msgstr ""
 
-#: index.php:183
-msgid "View All Posts"
+#: inc/class-customizer.php:149
+msgid "Font Size Scale"
 msgstr ""
 
-#: comments.php:23
-msgid "Comments"
+#: inc/class-customizer.php:164
+msgid "Layout & Header"
 msgstr ""
 
-#: comments.php:25
-msgid "One comment"
+#: inc/class-customizer.php:165
+msgid "Customize your site layout, header, and footer options."
 msgstr ""
 
-#: comments.php:25
-msgid "% comments"
+#: inc/class-customizer.php:171
+msgid "Header Settings"
 msgstr ""
 
-#: comments.php:34
-msgid "Comments are closed."
+#: inc/class-customizer.php:181
+msgid "Header Style"
 msgstr ""
 
-#: comments.php:42
-msgid "Leave a Reply"
+#: inc/class-customizer.php:186
+msgid "Transparent"
 msgstr ""
 
-#: comments.php:43
-msgid "Cancel Reply"
+#: inc/class-customizer.php:187
+msgid "Solid"
 msgstr ""
 
-#: comments.php:48
-msgid "Your email address will not be published."
+#: inc/class-customizer.php:188
+msgid "Boxed"
 msgstr ""
 
-#: comments.php:49
-msgid "Required fields are marked *"
+#: inc/class-customizer.php:199
+msgid "Enable Sticky Header"
 msgstr ""
 
-#: comments.php:54
-msgid "Name *"
+#: inc/class-customizer.php:208
+msgid "Header CTA Button Text"
 msgstr ""
 
-#: comments.php:59
-msgid "Email *"
+#: inc/class-customizer.php:218
+msgid "Header CTA Button URL"
 msgstr ""
 
-#: comments.php:64
-msgid "Website"
+#: inc/class-customizer.php:227
+msgid "Layout Options"
 msgstr ""
 
-#: comments.php:69
-msgid "Comment *"
+#: inc/class-customizer.php:237
+msgid "Container Width (px)"
 msgstr ""
 
-#: comments.php:74
-msgid "Post Comment"
+#: inc/class-customizer.php:252
+msgid "Enable Boxed Layout"
 msgstr ""
 
-#: 404.php:20
-msgid "Oops! Page Not Found"
+#: inc/class-customizer.php:261
+msgid "Footer Settings"
+msgstr ""
+
+#: inc/class-customizer.php:270
+msgid "Footer Copyright Text"
+msgstr ""
+
+#: inc/class-customizer.php:280
+msgid "Footer Widget Columns"
+msgstr ""
+
+#: inc/class-customizer.php:285
+msgid "1 Column"
+msgstr ""
+
+#: inc/class-customizer.php:286
+msgid "2 Columns"
+msgstr ""
+
+#: inc/class-customizer.php:287
+msgid "3 Columns"
+msgstr ""
+
+#: inc/class-customizer.php:288
+msgid "4 Columns"
+msgstr ""
+
+#: inc/class-customizer.php:298
+msgid "Contact Information"
+msgstr ""
+
+#: inc/class-customizer.php:299
+msgid "Add your business contact information and social media links."
+msgstr ""
+
+#: inc/class-customizer.php:305
+msgid "Contact Details"
+msgstr ""
+
+#: inc/class-customizer.php:317
+msgid "Phone Number"
+msgstr ""
+
+#: inc/class-customizer.php:327
+msgid "Email Address"
+msgstr ""
+
+#: inc/class-customizer.php:337
+msgid "Business Address"
+msgstr ""
+
+#: inc/class-customizer.php:347
+msgid "Website URL"
+msgstr ""
+
+#: inc/class-customizer.php:356
+msgid "Social Media"
+msgstr ""
+
+#: inc/class-customizer.php:375
+msgid "%s URL"
+msgstr ""
+
+#: inc/class-customizer.php:384
+msgid "Blog Settings"
+msgstr ""
+
+#: inc/class-customizer.php:385
+msgid "Customize your blog layout and display options."
+msgstr ""
+
+#: inc/class-customizer.php:391
+msgid "Blog Layout"
+msgstr ""
+
+#: inc/class-customizer.php:401
+msgid "Blog Layout"
+msgstr ""
+
+#: inc/class-customizer.php:406
+msgid "Grid Layout"
+msgstr ""
+
+#: inc/class-customizer.php:407
+msgid "List Layout"
+msgstr ""
+
+#: inc/class-customizer.php:408
+msgid "Masonry Layout"
+msgstr ""
+
+#: inc/class-customizer.php:418
+msgid "Posts per Row"
+msgstr ""
+
+#: inc/class-customizer.php:436
+msgid "Show Post Excerpts"
+msgstr ""
+
+#: inc/class-customizer.php:446
+msgid "Excerpt Length (words)"
+msgstr ""
+
+#: inc/class-customizer.php:461
+msgid "Read More Button Text"
+msgstr ""
+
+#: inc/class-customizer.php:463
+msgid "Read More"
+msgstr ""
+
+#: inc/class-block-styles.php:34
+msgid "Hero Section"
+msgstr ""
+
+#: inc/class-block-styles.php:43
+msgid "Card"
+msgstr ""
+
+#: inc/class-block-styles.php:49
+msgid "Service Grid"
+msgstr ""
+
+#: inc/class-block-styles.php:55
+msgid "Testimonial"
+msgstr ""
+
+#: inc/class-block-styles.php:60
+msgid "Testimonial Style"
+msgstr ""
+
+#: inc/class-block-styles.php:66
+msgid "Call to Action"
+msgstr ""
+
+#: inc/class-block-styles.php:72
+msgid "Outline Primary"
+msgstr ""
+
+#: inc/class-block-styles.php:77
+msgid "Ghost Button"
+msgstr ""
+
+#: inc/class-block-styles.php:82
+msgid "Rounded Button"
+msgstr ""
+
+#: inc/class-block-styles.php:88
+msgid "Rounded Image"
+msgstr ""
+
+#: inc/class-block-styles.php:93
+msgid "Shadow Image"
+msgstr ""
+
+#: inc/class-block-styles.php:99
+msgid "Gradient Text"
+msgstr ""
+
+#: inc/class-block-styles.php:104
+msgid "Underlined Heading"
+msgstr ""
+
+#: inc/class-block-styles.php:110
+msgid "Checkmark List"
+msgstr ""
+
+#: inc/class-block-styles.php:115
+msgid "No Bullets"
+msgstr ""
+
+#: inc/class-block-styles.php:121
+msgid "Gradient Separator"
+msgstr ""
+
+#: inc/class-block-styles.php:126
+msgid "Dotted Separator"
+msgstr ""
+
+#: inc/class-block-styles.php:132
+msgid "Wave Divider"
+msgstr ""
+
+#: inc/class-block-styles.php:138
+msgid "Overlap Style"
+msgstr ""
+
+#: inc/class-block-styles.php:143
+msgid "Bordered Style"
+msgstr ""
+
+#: inc/class-block-styles.php:149
+msgid "Masonry Layout"
+msgstr ""
+
+#: inc/class-block-styles.php:154
+msgid "Hover Zoom Effect"
+msgstr ""
+
+#: inc/class-block-styles.php:160
+msgid "Highlighted Column"
+msgstr ""
+
+#: inc/class-block-styles.php:166
+msgid "Modern Table"
+msgstr ""
+
+#: inc/class-block-styles.php:171
+msgid "Pricing Table"
+msgstr ""
+
+#: inc/class-block-patterns.php:38
+msgid "GreenTech Heroes"
+msgstr ""
+
+#: inc/class-block-patterns.php:42
+msgid "GreenTech Services"
+msgstr ""
+
+#: inc/class-block-patterns.php:46
+msgid "GreenTech Testimonials"
+msgstr ""
+
+#: inc/class-block-patterns.php:50
+msgid "GreenTech Call to Action"
+msgstr ""
+
+#: inc/class-block-patterns.php:54
+msgid "GreenTech About"
+msgstr ""
+
+#: inc/class-block-patterns.php:58
+msgid "GreenTech Portfolio"
+msgstr ""
+
+#: inc/class-admin.php:87
+msgid "Welcome to GreenTech Theme!"
+msgstr ""
+
+#: inc/class-admin.php:88
+msgid "Thank you for choosing GreenTech. Get started by customizing your site colors, fonts, and layout."
+msgstr ""
+
+#: inc/class-admin.php:91
+msgid "Customize Your Site"
+msgstr ""
+
+#: inc/class-admin.php:94
+msgid "Theme Documentation"
+msgstr ""
+
+#: inc/class-admin.php:106
+msgid "Security check failed"
+msgstr ""
+
+#: inc/class-admin.php:117
+msgid "GreenTech Theme"
+msgstr ""
+
+#: inc/class-admin.php:122
+msgid "Welcome to GreenTech"
+msgstr ""
+
+#: inc/class-admin.php:123
+msgid "A modern, professional WordPress theme built for Gutenberg. Perfect for web development agencies, SEO firms, hosting providers, and software houses."
+msgstr ""
+
+#: inc/class-admin.php:130
+msgid "🎨"
+msgstr ""
+
+#: inc/class-admin.php:132
+msgid "Use the WordPress Customizer to change colors, fonts, layout, and more."
+msgstr ""
+
+#: inc/class-admin.php:134
+msgid "Open Customizer"
+msgstr ""
+
+#: inc/class-admin.php:140
+msgid "🧩"
+msgstr ""
+
+#: inc/class-admin.php:141
+msgid "Block Patterns"
+msgstr ""
+
+#: inc/class-admin.php:142
+msgid "Use pre-built block patterns to quickly create beautiful pages."
+msgstr ""
+
+#: inc/class-admin.php:144
+msgid "Create New Page"
+msgstr ""
+
+#: inc/class-admin.php:150
+msgid "📚"
+msgstr ""
+
+#: inc/class-admin.php:151
+msgid "Documentation"
+msgstr ""
+
+#: inc/class-admin.php:152
+msgid "Learn how to get the most out of your GreenTech theme."
+msgstr ""
+
+#: inc/class-admin.php:154
+msgid "View Documentation"
+msgstr ""
+
+#: inc/class-admin.php:160
+msgid "🛠️"
+msgstr ""
+
+#: inc/class-admin.php:161
+msgid "Theme Features"
+msgstr ""
+
+#: inc/class-admin.php:162
+msgid "Explore all the powerful features included with GreenTech."
+msgstr ""
+
+#: inc/class-admin.php:165
+msgid "Block-based design"
+msgstr ""
+
+#: inc/class-admin.php:166
+msgid "Custom block styles"
+msgstr ""
+
+#: inc/class-admin.php:167
+msgid "Pre-built patterns"
+msgstr ""
+
+#: inc/class-admin.php:168
+msgid "Responsive design"
+msgstr ""
+
+#: inc/class-admin.php:169
+msgid "SEO optimized"
+msgstr ""
+
+#: inc/class-admin.php:170
+msgid "Performance focused"
+msgstr ""
+
+#: inc/class-admin.php:176
+msgid "Quick Start Guide"
+msgstr ""
+
+#: inc/class-admin.php:182
+msgid "Customize Your Branding"
+msgstr ""
+
+#: inc/class-admin.php:183
+msgid "Upload your logo and set your brand colors in the Customizer."
+msgstr ""
+
+#: inc/class-admin.php:190
+msgid "Create Your Pages"
+msgstr ""
+
+#: inc/class-admin.php:191
+msgid "Use block patterns to quickly build your homepage, about page, and contact page."
+msgstr ""
+
+#: inc/class-admin.php:198
+msgid "Set Up Your Menus"
+msgstr ""
+
+#: inc/class-admin.php:199
+msgid "Create and assign menus for your header, footer, and social links."
+msgstr ""
+
+#: inc/class-admin.php:206
+msgid "Add Your Content"
+msgstr ""
+
+#: inc/class-admin.php:207
+msgid "Start adding your content using the powerful Gutenberg editor."
+msgstr ""
+
+#: inc/class-admin.php:215
+msgid "System Information"
+msgstr ""
+
+#: inc/class-admin.php:219
+msgid "Theme Version"
+msgstr ""
+
+#: inc/class-admin.php:223
+msgid "WordPress Version"
+msgstr ""
+
+#: inc/class-admin.php:227
+msgid "PHP Version"
+msgstr ""
+
+#: inc/class-admin.php:231
+msgid "Active Plugins"
+msgstr ""
+
+#: inc/class-admin.php:245
+msgid "Thank you for using <strong>GreenTech</strong> theme. <a href=\"%s\" target=\"_blank\">Rate us</a> ★★★★★"
 msgstr ""
 
 #: 404.php:21
-msgid "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable."
+msgid "Oops! That page can&rsquo;t be found."
 msgstr ""
 
 #: 404.php:25
-msgid "Go to Homepage"
-msgstr ""
-
-#: 404.php:26
-msgid "Browse Services"
+msgid "It looks like nothing was found at this location. Maybe try one of the links below or a search?"
 msgstr ""
 
 #: 404.php:32
-msgid "What you can do:"
+msgid "Most Used Categories"
 msgstr ""
 
-#: 404.php:34
-msgid "Check if you typed the URL correctly"
+#: 404.php:47
+msgid "Try looking in the monthly archives."
 msgstr ""
 
-#: 404.php:35
-msgid "Go back to the previous page"
-msgstr ""
-
-#: 404.php:36
-msgid "Visit our homepage"
-msgstr ""
-
-#: 404.php:37
-msgid "Search for what you need"
-msgstr ""
-
-#: 404.php:42
-msgid "Popular Pages"
-msgstr ""
-
-#: 404.php:50
-msgid "Recent Posts"
-msgstr ""
-
-#: archive.php:20
-msgid "Posts in"
-msgstr ""
-
-#: archive.php:22
-msgid "Posts by"
-msgstr ""
-
-#: archive.php:24
-msgid "Posts from"
-msgstr ""
-
-#: archive.php:26
-msgid "Posts tagged"
-msgstr ""
-
-#: archive.php:28
-msgid "Archives"
-msgstr ""
-
-#: archive.php:48
-msgid "No posts found in this archive."
-msgstr ""
-
-#: page-services.php:20
-msgid "Our Professional Services"
-msgstr ""
-
-#: page-services.php:21
-msgid "We offer comprehensive digital solutions to help your business grow and succeed online."
-msgstr ""
-
-#: page-services.php:43
-msgid "Why Choose GreenTech?"
-msgstr ""
-
-#: page-services.php:48
-msgid "Expert Team"
-msgstr ""
-
-#: page-services.php:49
-msgid "Our experienced developers and designers deliver high-quality solutions."
-msgstr ""
-
-#: page-services.php:53
-msgid "Quality Assurance"
-msgstr ""
-
-#: page-services.php:54
-msgid "We follow best practices and conduct thorough testing for every project."
-msgstr ""
-
-#: page-services.php:58
-msgid "Ongoing Support"
-msgstr ""
-
-#: page-services.php:59
-msgid "We provide continuous maintenance and support for all our solutions."
-msgstr ""
-
-#: page-services.php:63
-msgid "Competitive Pricing"
-msgstr ""
-
-#: page-services.php:64
-msgid "We offer competitive rates without compromising on quality."
-msgstr ""
-
-#: page-services.php:70
-msgid "Ready to Start Your Project?"
-msgstr ""
-
-#: page-services.php:71
-msgid "Contact us today to discuss your requirements and get a free consultation."
-msgstr ""
-
-#: page-services.php:72
-msgid "Get Free Quote"
+#: single.php:25
+msgid "Previous:"
 msgstr ""
 
 #: single.php:26
-msgid "Published on"
+msgid "Next:"
 msgstr ""
 
-#: single.php:30
-msgid "by"
+#: template-parts/content-none.php:20
+msgid "Nothing here"
 msgstr ""
 
-#: single.php:36
-msgid "in"
+#: template-parts/content-none.php:27
+msgid "Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
 msgstr ""
 
-#: single.php:42
-msgid "Tagged with"
+#: template-parts/content-none.php:38
+msgid "Sorry, but nothing matched your search terms. Please try again with some different keywords."
 msgstr ""
 
-#: single.php:50
-msgid "Share this post"
+#: template-parts/content-none.php:44
+msgid "It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help."
 msgstr ""
 
-#: single.php:67
-msgid "About the Author"
+#: template-parts/content-page.php:37
+msgid "Edit <span class=\"screen-reader-text\">\"%s\"</span>"
 msgstr ""
 
-#: single.php:70
-msgid "View all posts by"
+#: template-parts/content.php:28
+msgid "Continue reading<span class=\"screen-reader-text\"> \"%s\"</span>"
 msgstr ""
 
-#: single.php:79
-msgid "Related Posts"
-msgstr ""
-
-#: single.php:86
-msgid "No related posts found."
+#: template-parts/content.php:68
+msgid "Pages:"
 msgstr ""

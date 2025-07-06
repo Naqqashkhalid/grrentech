@@ -2,7 +2,7 @@
 /**
  * Customizer Class
  * 
- * Handles WordPress Customizer integration and theme options
+ * Handles WordPress Customizer integration and theme options.
  * 
  * @package GreenTech
  * @since 1.0.0
@@ -21,454 +21,507 @@ if (!defined('ABSPATH')) {
 class Customizer {
     
     /**
-     * Initialize the class
+     * Constructor
      */
     public function __construct() {
-        add_action('customize_register', [$this, 'register_customizer']);
+        add_action('customize_register', [$this, 'register_customizer_options']);
         add_action('customize_preview_init', [$this, 'customize_preview_js']);
-        add_action('wp_head', [$this, 'customize_css']);
+        add_action('wp_head', [$this, 'output_customizer_styles']);
     }
     
     /**
      * Register customizer options
-     * 
-     * @param WP_Customize_Manager $wp_customize Customizer manager instance
      */
-    public function register_customizer($wp_customize) {
-        
+    public function register_customizer_options($wp_customize) {
         // Remove default sections we don't need
         $wp_customize->remove_section('colors');
+        $wp_customize->remove_section('background_image');
         
-        // Add GreenTech panel
-        $wp_customize->add_panel('greentech_panel', [
-            'title' => __('GreenTech Options', 'greentech'),
-            'description' => __('Customize your GreenTech theme settings', 'greentech'),
-            'priority' => 30,
-        ]);
-        
-        // Colors
-        $this->add_colors_section($wp_customize);
-        
-        // Typography
-        $this->add_typography_section($wp_customize);
-        
-        // Header
-        $this->add_header_section($wp_customize);
-        
-        // Hero Section
-        $this->add_hero_section($wp_customize);
-        
-        // Contact Information
-        $this->add_contact_section($wp_customize);
-        
-        // Social Media
-        $this->add_social_section($wp_customize);
-        
-        // Footer
-        $this->add_footer_section($wp_customize);
-        
-        // Blog Settings
-        $this->add_blog_section($wp_customize);
+        // Add custom panels
+        $this->add_branding_panel($wp_customize);
+        $this->add_layout_panel($wp_customize);
+        $this->add_contact_panel($wp_customize);
+        $this->add_blog_panel($wp_customize);
     }
     
     /**
-     * Add colors section
+     * Add branding panel
      */
-    private function add_colors_section($wp_customize) {
+    private function add_branding_panel($wp_customize) {
+        // Branding Panel
+        $wp_customize->add_panel('greentech_branding', [
+            'title'       => __('Branding & Design', 'greentech'),
+            'description' => __('Customize your site branding, colors, and typography.', 'greentech'),
+            'priority'    => 30,
+        ]);
+        
+        // Colors Section
         $wp_customize->add_section('greentech_colors', [
-            'title' => __('Colors', 'greentech'),
-            'panel' => 'greentech_panel',
+            'title'    => __('Colors', 'greentech'),
+            'panel'    => 'greentech_branding',
             'priority' => 10,
         ]);
         
         // Primary Color
-        $wp_customize->add_setting('primary_color', [
-            'default' => '#4CAF50',
+        $wp_customize->add_setting('colors_primary', [
+            'default'           => '#4CAF50',
             'sanitize_callback' => 'sanitize_hex_color',
-            'transport' => 'postMessage',
+            'transport'         => 'postMessage',
         ]);
         
-        $wp_customize->add_control(new \WP_Customize_Color_Control($wp_customize, 'primary_color', [
-            'label' => __('Primary Color', 'greentech'),
-            'description' => __('Choose the main accent color for your site', 'greentech'),
-            'section' => 'greentech_colors',
+        $wp_customize->add_control(new \WP_Customize_Color_Control($wp_customize, 'colors_primary', [
+            'label'    => __('Primary Color', 'greentech'),
+            'section'  => 'greentech_colors',
+            'settings' => 'colors_primary',
         ]));
         
         // Secondary Color
-        $wp_customize->add_setting('secondary_color', [
-            'default' => '#1a1a1a',
+        $wp_customize->add_setting('colors_secondary', [
+            'default'           => '#1a1a1a',
             'sanitize_callback' => 'sanitize_hex_color',
-            'transport' => 'postMessage',
+            'transport'         => 'postMessage',
         ]);
         
-        $wp_customize->add_control(new \WP_Customize_Color_Control($wp_customize, 'secondary_color', [
-            'label' => __('Secondary Color', 'greentech'),
-            'description' => __('Choose the secondary color for text and backgrounds', 'greentech'),
-            'section' => 'greentech_colors',
+        $wp_customize->add_control(new \WP_Customize_Color_Control($wp_customize, 'colors_secondary', [
+            'label'    => __('Secondary Color', 'greentech'),
+            'section'  => 'greentech_colors',
+            'settings' => 'colors_secondary',
         ]));
-    }
-    
-    /**
-     * Add typography section
-     */
-    private function add_typography_section($wp_customize) {
+        
+        // Accent Color
+        $wp_customize->add_setting('colors_accent', [
+            'default'           => '#66bb6a',
+            'sanitize_callback' => 'sanitize_hex_color',
+            'transport'         => 'postMessage',
+        ]);
+        
+        $wp_customize->add_control(new \WP_Customize_Color_Control($wp_customize, 'colors_accent', [
+            'label'    => __('Accent Color', 'greentech'),
+            'section'  => 'greentech_colors',
+            'settings' => 'colors_accent',
+        ]));
+        
+        // Typography Section
         $wp_customize->add_section('greentech_typography', [
-            'title' => __('Typography', 'greentech'),
-            'panel' => 'greentech_panel',
+            'title'    => __('Typography', 'greentech'),
+            'panel'    => 'greentech_branding',
             'priority' => 20,
         ]);
         
-        // Headings Font
-        $wp_customize->add_setting('headings_font', [
-            'default' => 'Inter',
+        // Heading Font
+        $wp_customize->add_setting('typography_heading_font', [
+            'default'           => 'Inter',
             'sanitize_callback' => 'sanitize_text_field',
+            'transport'         => 'postMessage',
         ]);
         
-        $wp_customize->add_control('headings_font', [
-            'label' => __('Headings Font', 'greentech'),
-            'section' => 'greentech_typography',
-            'type' => 'select',
-            'choices' => [
-                'Inter' => 'Inter',
-                'Roboto' => 'Roboto',
+        $wp_customize->add_control('typography_heading_font', [
+            'type'     => 'select',
+            'label'    => __('Heading Font', 'greentech'),
+            'section'  => 'greentech_typography',
+            'choices'  => [
+                'Inter'     => 'Inter',
+                'Poppins'   => 'Poppins',
+                'Roboto'    => 'Roboto',
                 'Open Sans' => 'Open Sans',
-                'Montserrat' => 'Montserrat',
-                'Poppins' => 'Poppins',
+                'Lato'      => 'Lato',
             ],
         ]);
         
         // Body Font
-        $wp_customize->add_setting('body_font', [
-            'default' => 'Inter',
+        $wp_customize->add_setting('typography_body_font', [
+            'default'           => 'Inter',
             'sanitize_callback' => 'sanitize_text_field',
+            'transport'         => 'postMessage',
         ]);
         
-        $wp_customize->add_control('body_font', [
-            'label' => __('Body Font', 'greentech'),
-            'section' => 'greentech_typography',
-            'type' => 'select',
-            'choices' => [
-                'Inter' => 'Inter',
-                'Roboto' => 'Roboto',
+        $wp_customize->add_control('typography_body_font', [
+            'type'     => 'select',
+            'label'    => __('Body Font', 'greentech'),
+            'section'  => 'greentech_typography',
+            'choices'  => [
+                'Inter'     => 'Inter',
+                'Poppins'   => 'Poppins',
+                'Roboto'    => 'Roboto',
                 'Open Sans' => 'Open Sans',
-                'Source Sans Pro' => 'Source Sans Pro',
-                'Lato' => 'Lato',
+                'Lato'      => 'Lato',
+            ],
+        ]);
+        
+        // Font Size Scale
+        $wp_customize->add_setting('typography_font_scale', [
+            'default'           => '1',
+            'sanitize_callback' => 'sanitize_text_field',
+            'transport'         => 'postMessage',
+        ]);
+        
+        $wp_customize->add_control('typography_font_scale', [
+            'type'        => 'range',
+            'label'       => __('Font Size Scale', 'greentech'),
+            'section'     => 'greentech_typography',
+            'input_attrs' => [
+                'min'  => '0.8',
+                'max'  => '1.2',
+                'step' => '0.1',
             ],
         ]);
     }
     
     /**
-     * Add header section
+     * Add layout panel
      */
-    private function add_header_section($wp_customize) {
+    private function add_layout_panel($wp_customize) {
+        // Layout Panel
+        $wp_customize->add_panel('greentech_layout', [
+            'title'       => __('Layout & Header', 'greentech'),
+            'description' => __('Customize your site layout, header, and footer options.', 'greentech'),
+            'priority'    => 40,
+        ]);
+        
+        // Header Section
         $wp_customize->add_section('greentech_header', [
-            'title' => __('Header Settings', 'greentech'),
-            'panel' => 'greentech_panel',
-            'priority' => 30,
+            'title'    => __('Header Settings', 'greentech'),
+            'panel'    => 'greentech_layout',
+            'priority' => 10,
         ]);
         
         // Header Style
         $wp_customize->add_setting('header_style', [
-            'default' => 'transparent',
+            'default'           => 'transparent',
             'sanitize_callback' => 'sanitize_text_field',
+            'transport'         => 'postMessage',
         ]);
         
         $wp_customize->add_control('header_style', [
-            'label' => __('Header Style', 'greentech'),
-            'section' => 'greentech_header',
-            'type' => 'select',
-            'choices' => [
+            'type'     => 'select',
+            'label'    => __('Header Style', 'greentech'),
+            'section'  => 'greentech_header',
+            'choices'  => [
                 'transparent' => __('Transparent', 'greentech'),
-                'solid' => __('Solid', 'greentech'),
-                'boxed' => __('Boxed', 'greentech'),
+                'solid'       => __('Solid', 'greentech'),
+                'boxed'       => __('Boxed', 'greentech'),
             ],
         ]);
         
         // Sticky Header
-        $wp_customize->add_setting('sticky_header', [
-            'default' => true,
-            'sanitize_callback' => 'rest_sanitize_boolean',
+        $wp_customize->add_setting('header_sticky', [
+            'default'           => true,
+            'sanitize_callback' => 'wp_validate_boolean',
+            'transport'         => 'postMessage',
         ]);
         
-        $wp_customize->add_control('sticky_header', [
-            'label' => __('Sticky Header', 'greentech'),
-            'description' => __('Make header stick to top when scrolling', 'greentech'),
+        $wp_customize->add_control('header_sticky', [
+            'type'    => 'checkbox',
+            'label'   => __('Enable Sticky Header', 'greentech'),
             'section' => 'greentech_header',
-            'type' => 'checkbox',
+        ]);
+        
+        // Header CTA Button
+        $wp_customize->add_setting('header_cta_text', [
+            'default'           => __('Get Started', 'greentech'),
+            'sanitize_callback' => 'sanitize_text_field',
+            'transport'         => 'postMessage',
+        ]);
+        
+        $wp_customize->add_control('header_cta_text', [
+            'type'    => 'text',
+            'label'   => __('Header CTA Button Text', 'greentech'),
+            'section' => 'greentech_header',
+        ]);
+        
+        $wp_customize->add_setting('header_cta_url', [
+            'default'           => '#contact',
+            'sanitize_callback' => 'esc_url_raw',
+            'transport'         => 'postMessage',
+        ]);
+        
+        $wp_customize->add_control('header_cta_url', [
+            'type'    => 'url',
+            'label'   => __('Header CTA Button URL', 'greentech'),
+            'section' => 'greentech_header',
+        ]);
+        
+        // Layout Section
+        $wp_customize->add_section('greentech_layout_options', [
+            'title'    => __('Layout Options', 'greentech'),
+            'panel'    => 'greentech_layout',
+            'priority' => 20,
+        ]);
+        
+        // Container Width
+        $wp_customize->add_setting('layout_container_width', [
+            'default'           => '1200',
+            'sanitize_callback' => 'absint',
+            'transport'         => 'postMessage',
+        ]);
+        
+        $wp_customize->add_control('layout_container_width', [
+            'type'        => 'range',
+            'label'       => __('Container Width (px)', 'greentech'),
+            'section'     => 'greentech_layout_options',
+            'input_attrs' => [
+                'min'  => '1000',
+                'max'  => '1400',
+                'step' => '50',
+            ],
+        ]);
+        
+        // Boxed Layout
+        $wp_customize->add_setting('layout_boxed', [
+            'default'           => false,
+            'sanitize_callback' => 'wp_validate_boolean',
+            'transport'         => 'postMessage',
+        ]);
+        
+        $wp_customize->add_control('layout_boxed', [
+            'type'    => 'checkbox',
+            'label'   => __('Enable Boxed Layout', 'greentech'),
+            'section' => 'greentech_layout_options',
+        ]);
+        
+        // Footer Section
+        $wp_customize->add_section('greentech_footer', [
+            'title'    => __('Footer Settings', 'greentech'),
+            'panel'    => 'greentech_layout',
+            'priority' => 30,
+        ]);
+        
+        // Footer Copyright
+        $wp_customize->add_setting('footer_copyright', [
+            'default'           => sprintf(__('© %s %s. All rights reserved.', 'greentech'), date('Y'), get_bloginfo('name')),
+            'sanitize_callback' => 'wp_kses_post',
+            'transport'         => 'postMessage',
+        ]);
+        
+        $wp_customize->add_control('footer_copyright', [
+            'type'    => 'textarea',
+            'label'   => __('Footer Copyright Text', 'greentech'),
+            'section' => 'greentech_footer',
+        ]);
+        
+        // Footer Widgets
+        $wp_customize->add_setting('footer_widgets_columns', [
+            'default'           => '4',
+            'sanitize_callback' => 'absint',
+            'transport'         => 'postMessage',
+        ]);
+        
+        $wp_customize->add_control('footer_widgets_columns', [
+            'type'     => 'select',
+            'label'    => __('Footer Widget Columns', 'greentech'),
+            'section'  => 'greentech_footer',
+            'choices'  => [
+                '1' => __('1 Column', 'greentech'),
+                '2' => __('2 Columns', 'greentech'),
+                '3' => __('3 Columns', 'greentech'),
+                '4' => __('4 Columns', 'greentech'),
+            ],
         ]);
     }
     
     /**
-     * Add hero section
+     * Add contact panel
      */
-    private function add_hero_section($wp_customize) {
-        $wp_customize->add_section('greentech_hero', [
-            'title' => __('Hero Section', 'greentech'),
-            'panel' => 'greentech_panel',
-            'priority' => 40,
+    private function add_contact_panel($wp_customize) {
+        // Contact Panel
+        $wp_customize->add_panel('greentech_contact', [
+            'title'       => __('Contact Information', 'greentech'),
+            'description' => __('Add your business contact information and social media links.', 'greentech'),
+            'priority'    => 50,
         ]);
         
-        // Hero Title
-        $wp_customize->add_setting('hero_title', [
-            'default' => __('Build Your Digital Future with GreenTech', 'greentech'),
-            'sanitize_callback' => 'sanitize_text_field',
-            'transport' => 'postMessage',
-        ]);
-        
-        $wp_customize->add_control('hero_title', [
-            'label' => __('Hero Title', 'greentech'),
-            'section' => 'greentech_hero',
-            'type' => 'text',
-        ]);
-        
-        // Hero Subtitle
-        $wp_customize->add_setting('hero_subtitle', [
-            'default' => __('Professional web development, hosting, and digital marketing services for modern businesses.', 'greentech'),
-            'sanitize_callback' => 'sanitize_textarea_field',
-            'transport' => 'postMessage',
-        ]);
-        
-        $wp_customize->add_control('hero_subtitle', [
-            'label' => __('Hero Subtitle', 'greentech'),
-            'section' => 'greentech_hero',
-            'type' => 'textarea',
-        ]);
-        
-        // Primary Button
-        $wp_customize->add_setting('hero_button_text', [
-            'default' => __('Get Started', 'greentech'),
-            'sanitize_callback' => 'sanitize_text_field',
-        ]);
-        
-        $wp_customize->add_control('hero_button_text', [
-            'label' => __('Primary Button Text', 'greentech'),
-            'section' => 'greentech_hero',
-            'type' => 'text',
-        ]);
-        
-        $wp_customize->add_setting('hero_button_url', [
-            'default' => '#contact',
-            'sanitize_callback' => 'esc_url_raw',
-        ]);
-        
-        $wp_customize->add_control('hero_button_url', [
-            'label' => __('Primary Button URL', 'greentech'),
-            'section' => 'greentech_hero',
-            'type' => 'url',
-        ]);
-        
-        // Secondary Button
-        $wp_customize->add_setting('hero_button_2_text', [
-            'default' => __('Our Services', 'greentech'),
-            'sanitize_callback' => 'sanitize_text_field',
-        ]);
-        
-        $wp_customize->add_control('hero_button_2_text', [
-            'label' => __('Secondary Button Text', 'greentech'),
-            'section' => 'greentech_hero',
-            'type' => 'text',
-        ]);
-        
-        $wp_customize->add_setting('hero_button_2_url', [
-            'default' => '#services',
-            'sanitize_callback' => 'esc_url_raw',
-        ]);
-        
-        $wp_customize->add_control('hero_button_2_url', [
-            'label' => __('Secondary Button URL', 'greentech'),
-            'section' => 'greentech_hero',
-            'type' => 'url',
-        ]);
-    }
-    
-    /**
-     * Add contact section
-     */
-    private function add_contact_section($wp_customize) {
-        $wp_customize->add_section('greentech_contact', [
-            'title' => __('Contact Information', 'greentech'),
-            'panel' => 'greentech_panel',
-            'priority' => 50,
+        // Contact Info Section
+        $wp_customize->add_section('greentech_contact_info', [
+            'title'    => __('Contact Details', 'greentech'),
+            'panel'    => 'greentech_contact',
+            'priority' => 10,
         ]);
         
         // Phone
         $wp_customize->add_setting('contact_phone', [
-            'default' => '0544-277588',
+            'default'           => '',
             'sanitize_callback' => 'sanitize_text_field',
+            'transport'         => 'postMessage',
         ]);
         
         $wp_customize->add_control('contact_phone', [
-            'label' => __('Phone Number', 'greentech'),
-            'section' => 'greentech_contact',
-            'type' => 'tel',
+            'type'    => 'tel',
+            'label'   => __('Phone Number', 'greentech'),
+            'section' => 'greentech_contact_info',
         ]);
         
         // Email
         $wp_customize->add_setting('contact_email', [
-            'default' => 'inquiry@greentech.guru',
+            'default'           => '',
             'sanitize_callback' => 'sanitize_email',
+            'transport'         => 'postMessage',
         ]);
         
         $wp_customize->add_control('contact_email', [
-            'label' => __('Email Address', 'greentech'),
-            'section' => 'greentech_contact',
-            'type' => 'email',
+            'type'    => 'email',
+            'label'   => __('Email Address', 'greentech'),
+            'section' => 'greentech_contact_info',
         ]);
         
         // Address
         $wp_customize->add_setting('contact_address', [
-            'default' => 'Office# 11, 1st Floor Soldier Arcade, Al-Markaz Road, Jhelum',
+            'default'           => '',
             'sanitize_callback' => 'sanitize_textarea_field',
+            'transport'         => 'postMessage',
         ]);
         
         $wp_customize->add_control('contact_address', [
-            'label' => __('Address', 'greentech'),
-            'section' => 'greentech_contact',
-            'type' => 'textarea',
+            'type'    => 'textarea',
+            'label'   => __('Business Address', 'greentech'),
+            'section' => 'greentech_contact_info',
         ]);
         
         // Website
         $wp_customize->add_setting('contact_website', [
-            'default' => 'www.greentech.guru',
+            'default'           => '',
             'sanitize_callback' => 'esc_url_raw',
+            'transport'         => 'postMessage',
         ]);
         
         $wp_customize->add_control('contact_website', [
-            'label' => __('Website', 'greentech'),
-            'section' => 'greentech_contact',
-            'type' => 'url',
+            'type'    => 'url',
+            'label'   => __('Website URL', 'greentech'),
+            'section' => 'greentech_contact_info',
         ]);
-    }
-    
-    /**
-     * Add social media section
-     */
-    private function add_social_section($wp_customize) {
-        $wp_customize->add_section('greentech_social', [
-            'title' => __('Social Media', 'greentech'),
-            'panel' => 'greentech_panel',
-            'priority' => 60,
+        
+        // Social Media Section
+        $wp_customize->add_section('greentech_social_media', [
+            'title'    => __('Social Media', 'greentech'),
+            'panel'    => 'greentech_contact',
+            'priority' => 20,
         ]);
         
         $social_networks = [
-            'facebook' => __('Facebook', 'greentech'),
-            'twitter' => __('Twitter', 'greentech'),
-            'instagram' => __('Instagram', 'greentech'),
-            'linkedin' => __('LinkedIn', 'greentech'),
-            'youtube' => __('YouTube', 'greentech'),
-            'github' => __('GitHub', 'greentech'),
+            'facebook'  => 'Facebook',
+            'twitter'   => 'Twitter',
+            'instagram' => 'Instagram',
+            'linkedin'  => 'LinkedIn',
+            'youtube'   => 'YouTube',
+            'github'    => 'GitHub',
         ];
         
         foreach ($social_networks as $network => $label) {
             $wp_customize->add_setting("social_{$network}", [
-                'default' => '',
+                'default'           => '',
                 'sanitize_callback' => 'esc_url_raw',
+                'transport'         => 'postMessage',
             ]);
             
             $wp_customize->add_control("social_{$network}", [
-                'label' => $label . ' ' . __('URL', 'greentech'),
-                'section' => 'greentech_social',
-                'type' => 'url',
+                'type'    => 'url',
+                'label'   => sprintf(__('%s URL', 'greentech'), $label),
+                'section' => 'greentech_social_media',
             ]);
         }
     }
     
     /**
-     * Add footer section
+     * Add blog panel
      */
-    private function add_footer_section($wp_customize) {
-        $wp_customize->add_section('greentech_footer', [
-            'title' => __('Footer Settings', 'greentech'),
-            'panel' => 'greentech_panel',
-            'priority' => 70,
+    private function add_blog_panel($wp_customize) {
+        // Blog Panel
+        $wp_customize->add_panel('greentech_blog', [
+            'title'       => __('Blog Settings', 'greentech'),
+            'description' => __('Customize your blog layout and display options.', 'greentech'),
+            'priority'    => 60,
         ]);
         
-        // Copyright Text
-        $wp_customize->add_setting('footer_copyright', [
-            'default' => sprintf(__('© %s %s. All rights reserved.', 'greentech'), date('Y'), get_bloginfo('name')),
-            'sanitize_callback' => 'wp_kses_post',
+        // Blog Layout Section
+        $wp_customize->add_section('greentech_blog_layout', [
+            'title'    => __('Blog Layout', 'greentech'),
+            'panel'    => 'greentech_blog',
+            'priority' => 10,
         ]);
         
-        $wp_customize->add_control('footer_copyright', [
-            'label' => __('Copyright Text', 'greentech'),
-            'section' => 'greentech_footer',
-            'type' => 'textarea',
-        ]);
-        
-        // Footer Layout
-        $wp_customize->add_setting('footer_layout', [
-            'default' => '4-columns',
-            'sanitize_callback' => 'sanitize_text_field',
-        ]);
-        
-        $wp_customize->add_control('footer_layout', [
-            'label' => __('Footer Layout', 'greentech'),
-            'section' => 'greentech_footer',
-            'type' => 'select',
-            'choices' => [
-                '1-column' => __('1 Column', 'greentech'),
-                '2-columns' => __('2 Columns', 'greentech'),
-                '3-columns' => __('3 Columns', 'greentech'),
-                '4-columns' => __('4 Columns', 'greentech'),
-            ],
-        ]);
-    }
-    
-    /**
-     * Add blog section
-     */
-    private function add_blog_section($wp_customize) {
-        $wp_customize->add_section('greentech_blog', [
-            'title' => __('Blog Settings', 'greentech'),
-            'panel' => 'greentech_panel',
-            'priority' => 80,
-        ]);
-        
-        // Blog Layout
+        // Blog Layout Style
         $wp_customize->add_setting('blog_layout', [
-            'default' => 'sidebar-right',
+            'default'           => 'grid',
             'sanitize_callback' => 'sanitize_text_field',
+            'transport'         => 'postMessage',
         ]);
         
         $wp_customize->add_control('blog_layout', [
-            'label' => __('Blog Layout', 'greentech'),
-            'section' => 'greentech_blog',
-            'type' => 'select',
-            'choices' => [
-                'full-width' => __('Full Width', 'greentech'),
-                'sidebar-right' => __('Sidebar Right', 'greentech'),
-                'sidebar-left' => __('Sidebar Left', 'greentech'),
+            'type'     => 'select',
+            'label'    => __('Blog Layout', 'greentech'),
+            'section'  => 'greentech_blog_layout',
+            'choices'  => [
+                'grid'     => __('Grid Layout', 'greentech'),
+                'list'     => __('List Layout', 'greentech'),
+                'masonry'  => __('Masonry Layout', 'greentech'),
+            ],
+        ]);
+        
+        // Posts per Row
+        $wp_customize->add_setting('blog_columns', [
+            'default'           => '3',
+            'sanitize_callback' => 'absint',
+            'transport'         => 'postMessage',
+        ]);
+        
+        $wp_customize->add_control('blog_columns', [
+            'type'     => 'select',
+            'label'    => __('Posts per Row', 'greentech'),
+            'section'  => 'greentech_blog_layout',
+            'choices'  => [
+                '1' => __('1 Column', 'greentech'),
+                '2' => __('2 Columns', 'greentech'),
+                '3' => __('3 Columns', 'greentech'),
+                '4' => __('4 Columns', 'greentech'),
             ],
         ]);
         
         // Show Excerpt
-        $wp_customize->add_setting('blog_excerpt', [
-            'default' => true,
-            'sanitize_callback' => 'rest_sanitize_boolean',
+        $wp_customize->add_setting('blog_show_excerpt', [
+            'default'           => true,
+            'sanitize_callback' => 'wp_validate_boolean',
+            'transport'         => 'postMessage',
         ]);
         
-        $wp_customize->add_control('blog_excerpt', [
-            'label' => __('Show Excerpt', 'greentech'),
-            'description' => __('Show post excerpt instead of full content on blog pages', 'greentech'),
-            'section' => 'greentech_blog',
-            'type' => 'checkbox',
+        $wp_customize->add_control('blog_show_excerpt', [
+            'type'    => 'checkbox',
+            'label'   => __('Show Post Excerpts', 'greentech'),
+            'section' => 'greentech_blog_layout',
+        ]);
+        
+        // Excerpt Length
+        $wp_customize->add_setting('blog_excerpt_length', [
+            'default'           => 30,
+            'sanitize_callback' => 'absint',
+            'transport'         => 'postMessage',
+        ]);
+        
+        $wp_customize->add_control('blog_excerpt_length', [
+            'type'        => 'range',
+            'label'       => __('Excerpt Length (words)', 'greentech'),
+            'section'     => 'greentech_blog_layout',
+            'input_attrs' => [
+                'min'  => '10',
+                'max'  => '100',
+                'step' => '5',
+            ],
         ]);
         
         // Read More Text
-        $wp_customize->add_setting('blog_read_more', [
-            'default' => __('Read More', 'greentech'),
+        $wp_customize->add_setting('blog_read_more_text', [
+            'default'           => __('Read More', 'greentech'),
             'sanitize_callback' => 'sanitize_text_field',
+            'transport'         => 'postMessage',
         ]);
         
-        $wp_customize->add_control('blog_read_more', [
-            'label' => __('Read More Text', 'greentech'),
-            'section' => 'greentech_blog',
-            'type' => 'text',
+        $wp_customize->add_control('blog_read_more_text', [
+            'type'    => 'text',
+            'label'   => __('Read More Button Text', 'greentech'),
+            'section' => 'greentech_blog_layout',
         ]);
     }
     
     /**
-     * Enqueue customizer preview scripts
+     * Enqueue customizer preview script
      */
     public function customize_preview_js() {
         wp_enqueue_script(
@@ -481,21 +534,57 @@ class Customizer {
     }
     
     /**
-     * Output customizer CSS
+     * Output customizer styles
      */
-    public function customize_css() {
-        $primary_color = get_theme_mod('primary_color', '#4CAF50');
-        $secondary_color = get_theme_mod('secondary_color', '#1a1a1a');
+    public function output_customizer_styles() {
+        $primary_color = get_theme_mod('colors_primary', '#4CAF50');
+        $secondary_color = get_theme_mod('colors_secondary', '#1a1a1a');
+        $accent_color = get_theme_mod('colors_accent', '#66bb6a');
+        $container_width = get_theme_mod('layout_container_width', 1200);
+        $font_scale = get_theme_mod('typography_font_scale', 1);
         
         $css = "
-        <style type='text/css'>
+        <style id='greentech-customizer-styles'>
             :root {
-                --primary-color: {$primary_color};
-                --secondary-color: {$secondary_color};
+                --wp--preset--color--primary: {$primary_color};
+                --wp--preset--color--secondary: {$secondary_color};
+                --wp--preset--color--accent: {$accent_color};
+                --wp--preset--color--primary-hover: " . $this->adjust_brightness($primary_color, -20) . ";
+                --wp--style--global--content-size: {$container_width}px;
+                --wp--style--global--wide-size: " . ($container_width + 200) . "px;
+                --font-scale: {$font_scale};
             }
-        </style>
-        ";
+            
+            .container {
+                max-width: {$container_width}px;
+            }
+            
+            body {
+                font-size: calc(1rem * var(--font-scale));
+            }
+        </style>";
         
         echo $css;
+    }
+    
+    /**
+     * Adjust color brightness
+     */
+    private function adjust_brightness($hex, $percent) {
+        $hex = ltrim($hex, '#');
+        
+        if (strlen($hex) == 3) {
+            $hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
+        }
+        
+        $hex = array_map('hexdec', str_split($hex, 2));
+        
+        foreach ($hex as &$color) {
+            $adjustableLimit = $percent < 0 ? $color : 255 - $color;
+            $adjustAmount = ceil($adjustableLimit * $percent / 100);
+            $color = str_pad(dechex($color + $adjustAmount), 2, '0', STR_PAD_LEFT);
+        }
+        
+        return '#' . implode($hex);
     }
 }
